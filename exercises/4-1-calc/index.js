@@ -32,5 +32,5 @@ switch (true) {
         console.log(divide(firstNum, secondNum));
         break;
     default:
-        throw new Error('Could not find such operation ' . method);
+        throw new Error('Could not find such operation ' + method);
 }
