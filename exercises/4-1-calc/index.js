@@ -20,15 +20,19 @@ if (
 
 switch (true) {
     case method === 'add':
+        // Сложение
         console.log(add(firstNum, secondNum));
         break;
     case method === 'subtract':
+        // Вычитание
         console.log(subtract(firstNum, secondNum));
         break;
     case method === 'multiply':
+        // Умножение
         console.log(multiply(firstNum, secondNum));
         break;
     case method === 'divide':
+        // Деление
         console.log(divide(firstNum, secondNum));
         break;
     default:
