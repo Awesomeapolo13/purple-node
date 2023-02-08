@@ -1,6 +1,5 @@
 import Emmiter from 'events';
 
-// Где должна быть проверка (валидация), внутри каждого модуля или же в index.js?
 const [firstNum, secondNum, method] = [
     Number(process.argv[2]), // привожу к числу, поскольку аргументы всегда строки
     Number(process.argv[3]),
