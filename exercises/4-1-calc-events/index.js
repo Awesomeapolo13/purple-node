@@ -18,7 +18,10 @@ if (
     || typeof secondNum !== 'number'
     || typeof method !== 'string'
 ) {
-    emmiter.emit('error', 'Invalid argument type! Check your arguments.');
+    emmiter.emit(
+        'error',
+        'Ошибка ввода: Необходимо передать в качестве параметров два числа и строку с операцией.'
+    );
 }
 
 // Выведение результата операции или ошибки.
@@ -47,7 +50,7 @@ emmiter.on(
     'divide',
     (num1, num2) => {
         if (num2 === 0) {
-           emmiter.emit('error','Invalid argument type! You can not divine on 0.');
+           emmiter.emit('error','Ошибка ввода: Нельзя делить на ноль');
            return;
         }
         return emmiter.emit('showRes', num1 / num2);
@@ -55,7 +58,7 @@ emmiter.on(
 );
 
 if (!emmiter.eventNames().find(item => item === method)) {
-    emmiter.emit('error', 'Could not find such operation ' + method);
+    emmiter.emit('error', 'Ошибка ввода: Не существующая операция ' + method);
 }
 
 emmiter.emit(method, firstNum, secondNum);

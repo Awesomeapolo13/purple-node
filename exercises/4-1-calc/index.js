@@ -15,7 +15,7 @@ if (
     || typeof secondNum !== 'number'
     || typeof method !== 'string'
 ) {
-    throw new Error('Invalid argument type! Check your arguments.');
+    throw new Error('Ошибка ввода: Необходимо передать в качестве параметров два числа и строку с операцией.');
 }
 
 switch (true) {
@@ -36,5 +36,5 @@ switch (true) {
         console.log(divide(firstNum, secondNum));
         break;
     default:
-        throw new Error('Could not find such operation ' + method);
+        throw new Error('Ошибка ввода: Не существующая операция ' + method);
 }
