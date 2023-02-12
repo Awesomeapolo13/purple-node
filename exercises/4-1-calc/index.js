@@ -18,21 +18,20 @@ if (
     throw new Error('Ошибка ввода: Необходимо передать в качестве параметров два числа и строку с операцией.');
 }
 
-switch (true) {
-    case method === 'add':
-        // Сложение
+switch (method) {
+    case 'add':
         console.log(add(firstNum, secondNum));
         break;
-    case method === 'subtract':
-        // Вычитание
+    case 'subtract':
         console.log(subtract(firstNum, secondNum));
         break;
-    case method === 'multiply':
-        // Умножение
+    case 'multiply':
         console.log(multiply(firstNum, secondNum));
         break;
-    case method === 'divide':
-        // Деление
+    case 'divide':
+        if (secondNum === 0) {
+            throw new Error('Ошибка ввода: Нельзя делить на 0');
+        }
         console.log(divide(firstNum, secondNum));
         break;
     default:

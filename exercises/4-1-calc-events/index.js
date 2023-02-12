@@ -6,6 +6,12 @@ const [firstNum, secondNum, method] = [
     process.argv[4],
 ];
 const emmiter = new Emmiter();
+const operations = [
+    'add',
+    'subtract',
+    'multiply',
+    'divide',
+];
 
 // Обработка ошибок
 emmiter.on('error', (err) => {
@@ -24,28 +30,27 @@ if (
     );
 }
 
-// Выведение результата операции или ошибки.
+if (!operations.find(item => item === method)) {
+    emmiter.emit('error', 'Ошибка ввода: Не существующая операция ' + method);
+}
+
 emmiter.on('showRes', (expression) => console.log(expression))
 
-// Сложение.
 emmiter.on(
     'add',
     (num1, num2) => emmiter.emit('showRes', num1 + num2)
 );
 
-// Вычитание.
 emmiter.on(
     'subtract',
     (num1, num2) => emmiter.emit('showRes', num1 - num2)
 );
 
-// Умножение.
 emmiter.on(
     'multiply',
     (num1, num2) => emmiter.emit('showRes', num1 * num2)
 );
 
-// Деление.
 emmiter.on(
     'divide',
     (num1, num2) => {
@@ -56,9 +61,5 @@ emmiter.on(
         return emmiter.emit('showRes', num1 / num2);
     }
 );
-
-if (!emmiter.eventNames().find(item => item === method)) {
-    emmiter.emit('error', 'Ошибка ввода: Не существующая операция ' + method);
-}
 
 emmiter.emit(method, firstNum, secondNum);

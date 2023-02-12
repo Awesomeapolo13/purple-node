@@ -34,14 +34,6 @@ const resolveParams = (data) => {
 
 let [hours, minutes, seconds] = resolveParams(process.argv[2]);
 
-if (
-    Number(minutes) > 60
-    || Number(seconds) > 60
-) {
-    // throw new Error('Ошибка ввода: Число минут или секунд не может превышать 60.');
-    emmiter.emit('error', new Error('Ошибка ввода: Число минут или секунд не может превышать 60.'));
-}
-
 setTimeout(
     () => console.log('Дзынь, дзынь! Таймер сработал!'),
     Number(hours) * 60 * 60 * 1000 + Number(minutes) * 60 * 1000 + Number(seconds) * 1000
