@@ -1,8 +1,11 @@
 import { performance, PerformanceObserver } from 'perf_hooks';
-import { Worker } from "worker_threads";
-import splitToSmallerArrs from './modules/array-split.js';
+import { Worker } from 'worker_threads';
+import { dividedOnThreeCount } from './modules/dividing.js';
+import getResultForUsual from './modules/usual.js';
+import getResultForThreads from './modules/threaded.js';
 
-const array = [...Array(300000).keys()];
+const arrLength = 300_000;
+const array = [...Array(arrLength).keys()];
 
 const performanceObserver = new PerformanceObserver((items) => {
     items.getEntries().forEach((entry) => {
@@ -17,16 +20,11 @@ const getUsualCountDividedOnThree = (array) => {
         throw new TypeError('Ошибка типа аргумента: Функция getCountDividedOnThree ожидает массив');
     }
     performance.mark('startUsual');
-    let onThreeDividedCount = 0;
-    array.forEach((item) => {
-        if (item % 3 === 0) {
-            onThreeDividedCount++;
-        }
-    })
+    const res = dividedOnThreeCount(array)
     performance.mark('endUsual');
     performance.measure('measure usual', 'startUsual', 'endUsual');
 
-    return onThreeDividedCount;
+    return res;
 }
 
 const getThreadedCountDividedOnThree = (array) => {
@@ -42,16 +40,8 @@ const getThreadedCountDividedOnThree = (array) => {
 }
 
 const main = async () => {
-    const usual = getUsualCountDividedOnThree(array);
-    console.log(`Usual result: ${usual}`);
-    performance.mark('startWorker');
-    const threadedRes = (await Promise.all(
-        splitToSmallerArrs(array,8)
-            .map(item => getThreadedCountDividedOnThree(item))
-    )).reduce((num1, num2) => num1 + num2, 0);
-    performance.mark('endWorker');
-    performance.measure('Measure worker threads', 'startWorker', 'endWorker');
-    console.log(`Result with worker threads: ${threadedRes}`);
+    getResultForUsual(array, getUsualCountDividedOnThree);
+    await getResultForThreads(array, getThreadedCountDividedOnThree)
 }
 
 main(array);

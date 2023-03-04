@@ -1,10 +1,9 @@
-import Emmiter from 'events';
+import Emitter from 'events';
 import notifier from 'node-notifier';
 import resolveParams from './custom-modules/params-resolver.js';
 
-const emmiter = new Emmiter();
-
-let [hours, minutes, seconds] = resolveParams(process.argv[2]);
+const emitter = new Emitter();
+const [hours, minutes, seconds] = resolveParams(process.argv[2]);
 
 setTimeout(
     () => notifier.notify(
@@ -12,14 +11,14 @@ setTimeout(
             title: 'Дзынь, дзынь!',
             message: 'Таймер сработал!'
         },
-        function (err) {
+        (err) => {
             if (err) {
-                emmiter.emit(
+                emitter.emit(
                     'error',
                     new Error('Ошибка модуля оповещений. Попробуйте позднее')
                 );
             }
         }
     ),
-    Number(hours) * 60 * 60 * 1000 + Number(minutes) * 60 * 1000 + Number(seconds) * 1000
+    hours + minutes + seconds
 );

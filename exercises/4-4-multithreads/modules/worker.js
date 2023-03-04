@@ -1,14 +1,4 @@
 import { parentPort, workerData } from "worker_threads";
+import { dividedOnThreeCount } from "./dividing.js";
 
-const getCountDividedOnThree = (arr) => {
-    let onThreeDividedCount = 0
-    arr.data.forEach((item) => {
-        if (item % 3 === 0) {
-            onThreeDividedCount++;
-        }
-    });
-
-    return onThreeDividedCount;
-}
-
-parentPort.postMessage(getCountDividedOnThree(workerData));
+parentPort.postMessage(dividedOnThreeCount(workerData.data));
