@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import { getArgs } from './src/helpers/args-resolver.js';
+import {printHelp} from './src/services/log.service.js';
 
 const initCLI = () => {
     const args = getArgs(process.argv);
-    console.log(args);
-    switch (args) {
+    switch (true) {
         case args.h !== null:
-            // Show help block
+            printHelp();
             break;
         case args.s !== null:
             // Save city
@@ -15,6 +15,7 @@ const initCLI = () => {
             // Save token
             break;
     }
+    // Show the weather
 };
 
 initCLI();
