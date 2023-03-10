@@ -16,7 +16,7 @@ const getArgs = (args) => {
                 res[value.charAt(1)] = true;
             } else if (
                 arr[index + 1].charAt(0) !== '-'
-                && res[value.substring(1)] === null
+                && res[value.substring(1)] === undefined
             ) {
                 res[value.charAt(1)] = arr[index + 1];
             } else {
