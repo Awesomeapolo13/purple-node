@@ -4,6 +4,13 @@ import { printHelp, printSuccess, printError, printWeather } from './src/service
 import { saveKeyValue, TOKEN_DICTIONARY, getKeyValue } from './src/services/storage.service.js';
 import { getWeather, getIcon } from './src/services/api.service.js';
 
+/*
+ * ToDO:
+ *  1) Добавить сохранение нескольких городов.
+ *  2) Сделать получение погоды для всех переданных городов.
+ *  3) Сделать настройку языка и отображать результаты на русском или английском языках.
+ */
+
 const saveToken = async (token) => {
     if (!token.length) {
         printError('Не передан токен');
