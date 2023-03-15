@@ -19,6 +19,12 @@ const isExist = async (path) => {
     }
 }
 
+/**
+ * Получает значение по ключу.
+ *
+ * @param key
+ * @returns {Promise<undefined|*>}
+ */
 const getKeyValue = async (key) => {
     if (await isExist(filePath)) {
         const file = await promises.readFile(filePath);
@@ -30,6 +36,13 @@ const getKeyValue = async (key) => {
     return undefined;
 }
 
+/**
+ * Сохраняет значение по ключу.
+ *
+ * @param key
+ * @param value
+ * @returns {Promise<void>}
+ */
 const saveKeyValue = async (key, value) => {
     let data = {};
     if (await  isExist(filePath)) {
@@ -41,4 +54,45 @@ const saveKeyValue = async (key, value) => {
     await promises.writeFile(filePath, JSON.stringify(data));
 };
 
-export { saveKeyValue, getKeyValue, TOKEN_DICTIONARY };
+/**
+ * Добавляет значение в ключ-список.
+ *
+ * @param key
+ * @param value
+ * @returns {Promise<void>}
+ */
+const addKeyValue = async (key, value) => {
+    let data = {};
+    if (await  isExist(filePath)) {
+        const file = await promises.readFile(filePath);
+        data = JSON.parse(file);
+    }
+    // Создаем ключ объекта, если такого нет.
+    if (!data[key]) {
+        data[key] = [];
+    }
+
+    data[key].push(value);
+    await promises.writeFile(filePath, JSON.stringify(data));
+};
+
+const removeKeyValue = async (key, value) => {
+    let data = {};
+    if (await  isExist(filePath)) {
+        const file = await promises.readFile(filePath);
+        data = JSON.parse(file);
+    }
+    // Создаем ключ объекта, если такого нет.
+    if (!data[key]) {
+        data[key] = [];
+    }
+
+    const valueId = data[key].indexOf(value);
+    if (valueId > -1) {
+        data[key].splice(valueId, 1);
+    }
+
+    await promises.writeFile(filePath, JSON.stringify(data));
+};
+
+export { saveKeyValue, getKeyValue, addKeyValue, removeKeyValue, TOKEN_DICTIONARY };

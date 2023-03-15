@@ -6,4 +6,5 @@
 2) Таймер - см.`readme.md` а директории `exercises/4-2-timer`.
 3) Проверка скорости работы кода на worker threads и классическим способом -
 см. `readme.md` а директории `exercises/4-4-multithreads`.
-4) Таймер с оповещениями из node-modules - см.`readme.md` а директории `exercises/4-5-timer-notifications`
+4) Таймер с оповещениями из node-modules - см.`readme.md` а директории `exercises/4-5-timer-notifications`.
+5) CLI прогноза погоды - см.`readme.md` а директории `exercises/8-weather-extended`.

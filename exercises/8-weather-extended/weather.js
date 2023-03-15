@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { getArgs } from './src/helpers/args-resolver.js';
 import { printHelp, printSuccess, printError, printWeather } from './src/services/log.service.js';
-import { saveKeyValue, TOKEN_DICTIONARY, getKeyValue } from './src/services/storage.service.js';
+import {saveKeyValue, TOKEN_DICTIONARY, getKeyValue, addKeyValue, removeKeyValue} from './src/services/storage.service.js';
 import { getWeather, getIcon } from './src/services/api.service.js';
 
 /*
@@ -31,8 +31,22 @@ const saveCity = async (city) => {
     }
 
     try {
-        await saveKeyValue(TOKEN_DICTIONARY.city, city);
+        await addKeyValue(TOKEN_DICTIONARY.city, city);
         printSuccess('Город сохранен');
+    } catch (e) {
+        printError(e.message);
+    }
+}
+
+const removeCity = async (city) => {
+    if (!city.length) {
+        printError('Не передан город');
+        return;
+    }
+
+    try {
+        await removeKeyValue(TOKEN_DICTIONARY.city, city);
+        printSuccess('Город удален');
     } catch (e) {
         printError(e.message);
     }
@@ -61,6 +75,8 @@ const initCLI = () => {
             return printHelp();
         case args.s !== null && args.s !== undefined:
             return saveCity(args.s)
+        case args.r !== null && args.r !== undefined:
+            return removeCity(args.r);
         case args.t !== null && args.t !== undefined:
             return saveToken(args.t)
     }
