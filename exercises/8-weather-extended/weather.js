@@ -54,9 +54,12 @@ const removeCity = async (city) => {
 
 const getForecast = async () => {
     try {
-        const city = process.env.CITY ?? await getKeyValue(TOKEN_DICTIONARY.city);
-        const weather = await getWeather(city);
-        printWeather(weather, getIcon(weather.weather[0].icon));
+        const cities = process.env.CITY ?? await getKeyValue(TOKEN_DICTIONARY.city);
+
+        for (const city of cities) {
+            const weather = await getWeather(city);
+            printWeather(weather, getIcon(weather.weather[0].icon));
+        }
     } catch (e) {
         if (e?.response?.status === 404) {
             printError('Неверно указан город');
