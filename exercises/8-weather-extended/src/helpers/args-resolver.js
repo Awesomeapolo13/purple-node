@@ -4,7 +4,8 @@ const getArgs = (args) => {
         s: null,
         h: null,
         t: null,
-        r: null
+        r: null,
+        l: null,
     };
     const [executor, file, ...rest] = args;
 

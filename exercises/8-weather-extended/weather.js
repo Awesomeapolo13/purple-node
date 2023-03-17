@@ -52,6 +52,20 @@ const removeCity = async (city) => {
     }
 }
 
+const saveLang = async (lang) => {
+    if (!lang.length) {
+        printError('Не передан язык');
+        return;
+    }
+
+    try {
+        await addKeyValue(TOKEN_DICTIONARY.language, lang);
+        printSuccess('Языковые настройки сохранены');
+    } catch (e) {
+        printError(e.message);
+    }
+}
+
 const getForecast = async () => {
     try {
         const cities = process.env.CITY ?? await getKeyValue(TOKEN_DICTIONARY.city);
@@ -82,8 +96,10 @@ const initCLI = () => {
             return removeCity(args.r);
         case args.t !== null && args.t !== undefined:
             return saveToken(args.t)
+        case args.l !== null && args.l !== undefined:
+            return saveLang(args.l)
     }
-    return getForecast('Moscow');
+    return getForecast();
 };
 
 initCLI();
