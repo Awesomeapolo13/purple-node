@@ -1,5 +1,10 @@
 import chalk from 'chalk';
-import dedent from 'dedent-js';
+import {getKeyValue, TOKEN_DICTIONARY} from './storage.service.js';
+import { logLanguageDict } from '../dictionaries/log.language.dictionary.js';
+
+const getLangSetUp = async () => {
+    return await getKeyValue(TOKEN_DICTIONARY.language ?? 'ru');
+}
 
 const printError = (error) => {
     console.log(chalk.bgRed(' ERROR ') + ' ' + error);
@@ -9,30 +14,16 @@ const printSuccess = (message) => {
     console.log(chalk.bgGreen(' SUCCESS ') + ' ' + message);
 };
 
-const printHelp = () => {
+const printHelp = async () => {
     console.log(
-        dedent(
-            `${chalk.bgCyan(' HELP ')}
-        Без параметров - вывод погоды
-        -s [CITY] - для установки города
-        -h [HELP] - справка
-        -t [API_KEY] - для сохранения токена
-        `
-        )
+        logLanguageDict[await getLangSetUp()].help
     );
 };
 
-const printWeather = (res, icon) => {
+const printWeather =  async (res, icon) => {
     console.log(
-        dedent(
-            `${chalk.bgYellow(' WEATHER ')} Погода в городе ${res.name}
-        ${icon} ${res.weather[0].description}
-        Температура: ${res.main.temp} (ощущается как ${res.main.feels_like})
-        Влажность: ${res.main.humidity}%
-        Скорость ветка: ${res.wind.speed}
-        `
-        )
+        logLanguageDict[await getLangSetUp()].weather(res, icon)
     );
 }
 
-export { printError, printSuccess, printHelp, printWeather };
+export { printError, printSuccess, printHelp, printWeather, getLangSetUp };

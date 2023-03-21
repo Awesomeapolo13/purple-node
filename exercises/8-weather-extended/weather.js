@@ -1,17 +1,18 @@
 #!/usr/bin/env node
 import { getArgs } from './src/helpers/args-resolver.js';
-import { printHelp, printSuccess, printError, printWeather } from './src/services/log.service.js';
+import { printHelp, printSuccess, printError, printWeather, getLangSetUp } from './src/services/log.service.js';
 import {saveKeyValue, TOKEN_DICTIONARY, getKeyValue, addKeyValue, removeKeyValue} from './src/services/storage.service.js';
 import { getWeather, getIcon } from './src/services/api.service.js';
+import {logLanguageDict} from "./src/dictionaries/log.language.dictionary.js";
 
 const saveToken = async (token) => {
     if (!token.length) {
-        printError('Не передан токен');
+        printError(logLanguageDict[await getLangSetUp()].tokenIsEmptyMsg);
         return;
     }
     try {
         await saveKeyValue(TOKEN_DICTIONARY.token, token);
-        printSuccess('Токен сохранен')
+        printSuccess(logLanguageDict[await getLangSetUp()].saveTokenSuccess)
     } catch (e) {
         printError(e.message);
     }
@@ -19,13 +20,13 @@ const saveToken = async (token) => {
 
 const saveCity = async (city) => {
     if (!city.length) {
-        printError('Не передан город');
+        printError(logLanguageDict[await getLangSetUp()].cityIsEmptyMsg);
         return;
     }
 
     try {
         await addKeyValue(TOKEN_DICTIONARY.city, city);
-        printSuccess('Город сохранен');
+        printSuccess(logLanguageDict[await getLangSetUp()].saveCitySuccess);
     } catch (e) {
         printError(e.message);
     }
@@ -33,13 +34,13 @@ const saveCity = async (city) => {
 
 const removeCity = async (city) => {
     if (!city.length) {
-        printError('Не передан город');
+        printError(logLanguageDict[await getLangSetUp()].cityIsEmptyMsg);
         return;
     }
 
     try {
         await removeKeyValue(TOKEN_DICTIONARY.city, city);
-        printSuccess('Город удален');
+        printSuccess(logLanguageDict[await getLangSetUp()].removeCitySuccess);
     } catch (e) {
         printError(e.message);
     }
@@ -47,13 +48,13 @@ const removeCity = async (city) => {
 
 const saveLang = async (lang) => {
     if (!lang.length) {
-        printError('Не передан язык');
+        printError(logLanguageDict[await getLangSetUp()].langIsEmptyMsg);
         return;
     }
 
     try {
-        await addKeyValue(TOKEN_DICTIONARY.language, lang);
-        printSuccess('Языковые настройки сохранены');
+        await saveKeyValue(TOKEN_DICTIONARY.language, lang);
+        printSuccess(logLanguageDict[await getLangSetUp()].saveLangSuccess);
     } catch (e) {
         printError(e.message);
     }
@@ -65,13 +66,13 @@ const getForecast = async () => {
 
         for (const city of cities) {
             const weather = await getWeather(city);
-            printWeather(weather, getIcon(weather.weather[0].icon));
+            await printWeather(weather, getIcon(weather.weather[0].icon));
         }
     } catch (e) {
         if (e?.response?.status === 404) {
-            printError('Неверно указан город');
+            printError(logLanguageDict[await getLangSetUp()].wrongCitySetUpMsg);
         } else if (e?.response?.status === 401) {
-            printError('Неверно указан токен');
+            printError(logLanguageDict[await getLangSetUp()].wrongTokenSetUpMsg);
         } else {
             printError(e.message);
         }
