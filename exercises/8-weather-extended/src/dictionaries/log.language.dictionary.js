@@ -9,8 +9,10 @@ const logLanguageDict = {
         help: dedent(
             `${chalk.bgCyan(' HELP ')}
         Without parameters - to show a weather
-        -s [CITY] - to set up a city
         -h [HELP] - to show a helping information
+        -s [CITY] - to add a city
+        -r [CITY] - to remove a city
+        -l [LANGUAGE] - to set up a language (only ru and en access now)
         -t [API_KEY] - to set up a token
         `
         ),
@@ -38,8 +40,10 @@ const logLanguageDict = {
         help: dedent(
             `${chalk.bgCyan(' HELP ')}
         Без параметров - вывод погоды
-        -s [CITY] - для установки города
         -h [HELP] - справка
+        -s [CITY] - добавить город в список
+        -r [CITY] - удалить город из списка
+        -l [LANGUAGE] - установить языковые настройки (сейчас доступно только ru и en)
         -t [API_KEY] - для сохранения токена
         `
         ),
