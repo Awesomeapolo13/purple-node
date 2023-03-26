@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/Awesomeapolo13/purple-node#readme",
   "dependencies": {
+    "chalk": "^5.2.0",
+    "dedent-js": "^1.0.1",
     "express": "^4.18.2"
   }
 }

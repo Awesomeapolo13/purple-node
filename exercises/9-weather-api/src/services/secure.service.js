@@ -2,7 +2,7 @@ import {getKeyValue} from "./storage.service.js";
 
 const NO_AUTH_ROUTES = [
     '/user/login',
-    '/info',
+    '/help',
 ];
 
 const isAuth = (req) => {
