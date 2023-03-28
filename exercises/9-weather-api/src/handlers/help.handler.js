@@ -1,5 +1,5 @@
 import { logLanguageDict } from '../dictionaries/log.language.dictionary.js';
-import { getKeyValue, TOKEN_DICTIONARY } from "../services/storage.service.js";
+import { getKeyValue, TOKEN_DICTIONARY } from '../services/storage.service.js';
 
 /**
  * Обработчик роутов /help

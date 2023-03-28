@@ -1,5 +1,5 @@
 import express from 'express';
-import {handleHelp} from '../../handlers/help.handler.js';
+import { handleHelp } from '../../handlers/help.handler.js';
 
 const helpRouter = express.Router();
 
