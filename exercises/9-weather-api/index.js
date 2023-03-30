@@ -3,6 +3,7 @@ import {userRouter} from './src/routes/users/users.js';
 import {isAuth} from './src/services/secure.service.js';
 import {helpRouter} from "./src/routes/help/help.js";
 import {cityRouter} from "./src/routes/city/city.js";
+import {languageRouter} from "./src/routes/language/lang.js";
 
 const port = 8000;
 // Приложение
@@ -27,7 +28,8 @@ app.use((req, res, next) => {
 // Когда пользователь стучится на роут гланый префикс /users он попадает на обработку текущего роута на UserRouter.
 app.use('/user', userRouter);
 app.get('/help', helpRouter);
-app.use('/city', cityRouter)
+app.use('/city', cityRouter);
+app.use('/lang', languageRouter());
 
 // Слушатель приложения.
 app.listen(port, () => {
