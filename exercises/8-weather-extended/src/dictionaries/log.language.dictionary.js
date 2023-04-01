@@ -64,8 +64,8 @@ const logLanguageDict = {
         cityIsEmptyMsg: 'Не передан город',
         saveLangSuccess: 'Не передан язык',
         langIsEmptyMsg: 'Языковые настройки сохранены',
-        wrongTokenSetUpMsg: 'Неверно указан город',
-        wrongCitySetUpMsg: 'Неверно указан токен',
+        wrongTokenSetUpMsg: 'Неверно указан токен',
+        wrongCitySetUpMsg: 'Неверно указан город',
     },
 };
 

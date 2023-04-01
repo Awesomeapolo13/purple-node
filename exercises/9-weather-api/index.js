@@ -4,6 +4,7 @@ import {isAuth} from './src/services/secure.service.js';
 import {helpRouter} from "./src/routes/help/help.js";
 import {cityRouter} from "./src/routes/city/city.js";
 import {languageRouter} from "./src/routes/language/lang.js";
+import {weatherRouter} from "./src/routes/weather/weather.js";
 
 const port = 8000;
 // Приложение
@@ -13,9 +14,9 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 // Обработчик для авторизации.
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     // Авторизация
-    if (!isAuth(req)) {
+    if (! await isAuth(req)) {
         res.status(401).json({
             success: false,
             message: 'Осуществите вход для получения доступа к функционалу'
@@ -29,7 +30,8 @@ app.use((req, res, next) => {
 app.use('/user', userRouter);
 app.get('/help', helpRouter);
 app.use('/city', cityRouter);
-app.use('/lang', languageRouter());
+app.use('/lang', languageRouter);
+app.use('/weather', weatherRouter);
 
 // Слушатель приложения.
 app.listen(port, () => {

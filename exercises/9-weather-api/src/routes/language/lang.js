@@ -7,7 +7,7 @@ const languageRouter = express.Router();
  * Вернет ошибку, если тело запроса не валидно.
  */
 const checkBody = (reqBody) => {
-    if (reqBody.lang) {
+    if (!reqBody.lang) {
         throw new Error('Не передан язык');
     }
 

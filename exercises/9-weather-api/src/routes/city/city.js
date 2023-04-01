@@ -7,7 +7,7 @@ const cityRouter = express.Router();
  * Вернет ошибку, если тело запроса не валидно.
  */
 const checkBody = (reqBody) => {
-    if (reqBody.city) {
+    if (!reqBody.city) {
         throw new Error('Не передан город');
     }
 
