@@ -10,12 +10,13 @@ const setResponse = (isSuccess, message) => {
 
 const handleCityAdd = async (reqBody) => {
     const city = reqBody.city;
+    const langKey = await getKeyValue(TOKEN_DICTIONARY.language);
     const cityList = await getKeyValue(TOKEN_DICTIONARY.city);
-    let message = 'Данный город уже присутствует в списке.'
+    let message = logLanguageDict[langKey].cityIsExists;
 
     if (!cityList.includes(city)) {
         await addKeyValue(TOKEN_DICTIONARY.city, city);
-        message = 'Город успешно сохранен.';
+        message = logLanguageDict[langKey].saveCitySuccess;
     }
 
     return setResponse(true, message);
@@ -23,12 +24,13 @@ const handleCityAdd = async (reqBody) => {
 
 const handleCityRemove = async (reqBody) => {
     const city = reqBody.city;
+    const langKey = await getKeyValue(TOKEN_DICTIONARY.language);
     const cityList = await getKeyValue(TOKEN_DICTIONARY.city);
-    let message = 'Данный город уже отсутствует в списке.'
+    let message = logLanguageDict[langKey].cityIsNotExists;
 
     if (cityList.includes(city)) {
         await removeKeyValue(TOKEN_DICTIONARY.city, city);
-        message = 'Город успешно удален.';
+        message = logLanguageDict[langKey].removeCitySuccess;
     }
 
     return setResponse(true, message);

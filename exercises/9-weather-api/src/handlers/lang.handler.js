@@ -6,11 +6,11 @@ import {saveKeyValue, TOKEN_DICTIONARY} from '../services/storage.service.js';
  */
 const handleLangSet = async (reqBody) => {
     const lang = reqBody.lang;
-    await saveKeyValue(TOKEN_DICTIONARY.language, lang);
+    await saveKeyValue(TOKEN_DICTIONARY.language, lang.toLowerCase());
 
     return {
         success: true,
-        message: 'Языковые настройки сохранены',
+        message: logLanguageDict[lang].saveLangSuccess,
     }
 }
 

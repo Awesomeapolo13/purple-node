@@ -76,8 +76,6 @@ const addKeyValue = async (key, value) => {
     if (!data[key].includes(value)) {
         data[key].push(value);
         await promises.writeFile(filePath, JSON.stringify(data));
-    } else {
-        // ToDo Вывести сообщение о том что такой город уже сохранен.
     }
 };
 

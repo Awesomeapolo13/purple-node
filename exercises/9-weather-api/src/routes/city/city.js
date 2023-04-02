@@ -1,14 +1,17 @@
 import express from 'express';
 import { handleCityAdd, handleCityRemove } from '../../handlers/city.handler.js';
+import {getKeyValue, TOKEN_DICTIONARY} from "../../services/storage.service.js";
+import {logLanguageDict} from "../../dictionaries/log.language.dictionary.js";
 
 const cityRouter = express.Router();
 
 /**
  * Вернет ошибку, если тело запроса не валидно.
  */
-const checkBody = (reqBody) => {
+const checkBody = async (reqBody) => {
     if (!reqBody.city) {
-        throw new Error('Не передан город');
+        const langKey = await getKeyValue(TOKEN_DICTIONARY.language);
+        throw new Error(logLanguageDict[langKey].cityIsEmptyMsg);
     }
 
     return Boolean(reqBody.city);
@@ -17,7 +20,7 @@ const checkBody = (reqBody) => {
 cityRouter.post('/add', async (req, res) => {
     try {
         const reqBody = req.body;
-        checkBody(reqBody);
+        await checkBody(reqBody);
         res.status(200).json(await handleCityAdd(reqBody))
     } catch (err) {
         console.log(err.message);
@@ -31,7 +34,7 @@ cityRouter.post('/add', async (req, res) => {
 cityRouter.post('/remove', async (req, res) => {
     try {
         const reqBody = req.body;
-        checkBody(reqBody);
+        await checkBody(reqBody);
         res.status(200).json(await handleCityRemove(reqBody))
     } catch (err) {
         console.log(err.message);

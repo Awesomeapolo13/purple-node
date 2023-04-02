@@ -5,6 +5,10 @@ import dedent from 'dedent-js';
  * Словарь сообщений для вывода в консоли.
  */
 const logLanguageDict = {
+    availableLangs: [
+        'ru',
+        'en',
+    ],
     en: {
         help: dedent(
             `${chalk.bgCyan(' HELP ')}
@@ -29,13 +33,19 @@ const logLanguageDict = {
         },
         saveTokenSuccess: 'Token was saved successfully',
         tokenIsEmptyMsg: 'Token is empty',
+        tokenEmptyForLogin: 'Send a token to have a successful authorization.',
+        tokenErrorMsg: 'Authentication error, please, get another try later',
         saveCitySuccess: 'City was saved successfully',
         removeCitySuccess: 'City was removed successfully',
         cityIsEmptyMsg: 'City is empty',
+        cityIsExists: 'Such city is already exists in the list.',
+        cityIsNotExists: 'Such city is not exists in the list.',
         saveLangSuccess: 'The language is empty',
         langIsEmptyMsg: 'The language settings was saved successfully',
+        isNotAvailableLang: 'Sent language settings are not allowed now. Please choose en or ru.',
         wrongTokenSetUpMsg: 'Wrong token data',
         wrongCitySetUpMsg: 'Wrong city data',
+        smtWentWrong: 'Something went wrong. Please try again later...',
     },
     ru: {
         help: dedent(
@@ -59,15 +69,21 @@ const logLanguageDict = {
         `
             )
         },
-        saveTokenSuccess: 'Токен сохранен',
-        tokenIsEmptyMsg: 'Не передан токен',
-        saveCitySuccess: 'Город сохранен',
-        removeCitySuccess: 'Город удален',
+        saveTokenSuccess: 'Токен сохранен.',
+        tokenIsEmptyMsg: 'Не передан токен.',
+        tokenEmptyForLogin: 'Для авторизации передайте токен.',
+        tokenErrorMsg: 'Ошибка аутентификации попробуйте позднее',
+        saveCitySuccess: 'Город успешно сохранен.',
+        removeCitySuccess: 'Город успешно удален.',
         cityIsEmptyMsg: 'Не передан город',
-        saveLangSuccess: 'Не передан язык',
-        langIsEmptyMsg: 'Языковые настройки сохранены',
-        wrongTokenSetUpMsg: 'Неверно указан токен',
-        wrongCitySetUpMsg: 'Неверно указан город',
+        cityIsExists: 'Данный город уже присутствует в списке.',
+        cityIsNotExists: 'Данный город уже отсутствует в списке.',
+        langIsEmptyMsg: 'Не передан язык.',
+        saveLangSuccess: 'Языковые настройки сохранены.',
+        isNotAvailableLang: 'Переданные языковые настройки пока не доступны. Выберите en или ru.',
+        wrongTokenSetUpMsg: 'Неверно указан токен.',
+        wrongCitySetUpMsg: 'Неверно указан город.',
+        smtWentWrong: 'Что-то пошло не так, попробуйте позднее...',
     },
 };
 

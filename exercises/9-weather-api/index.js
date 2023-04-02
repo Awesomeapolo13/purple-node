@@ -1,10 +1,10 @@
 import express from 'express';
 import {userRouter} from './src/routes/users/users.js';
 import {isAuth} from './src/services/secure.service.js';
-import {helpRouter} from "./src/routes/help/help.js";
-import {cityRouter} from "./src/routes/city/city.js";
-import {languageRouter} from "./src/routes/language/lang.js";
-import {weatherRouter} from "./src/routes/weather/weather.js";
+import {helpRouter} from './src/routes/help/help.js';
+import {cityRouter} from './src/routes/city/city.js';
+import {languageRouter} from './src/routes/language/lang.js';
+import {weatherRouter} from './src/routes/weather/weather.js';
 
 const port = 8000;
 // Приложение

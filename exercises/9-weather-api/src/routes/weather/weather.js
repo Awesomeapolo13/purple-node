@@ -5,9 +5,10 @@ import {getKeyValue, TOKEN_DICTIONARY} from '../../services/storage.service.js';
 
 const weatherRouter = express.Router();
 
-const checkWeatherBody = (reqBody) => {
+const checkWeatherBody = async (reqBody) => {
     if (!reqBody.city) {
-        throw new Error('Не передан город');
+        const langKey = await getKeyValue(TOKEN_DICTIONARY.language)
+        throw new Error(logLanguageDict[langKey].cityIsEmptyMsg);
     }
 
     return Boolean(reqBody.city);
@@ -34,7 +35,7 @@ const getErrorResponse = async (err) => {
 weatherRouter.get('/', async (req, res) => {
     try {
         const reqBody = req.query;
-        checkWeatherBody(reqBody)
+        await checkWeatherBody(reqBody)
         res.status(200).json(await handleCityWeatherGet(reqBody));
     } catch (err) {
         console.log(err.message);
