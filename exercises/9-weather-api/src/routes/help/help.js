@@ -9,7 +9,7 @@ helpRouter.get('/help', async (req, res) => {
     try {
         res.status(200).json(await handleHelp())
     } catch (err) {
-        const langKey = await getKeyValue(TOKEN_DICTIONARY.language ) ?? 'ru';
+        const langKey = await getKeyValue(TOKEN_DICTIONARY.language );
         console.log(err.message);
         res.status(400).json({
             success: false,

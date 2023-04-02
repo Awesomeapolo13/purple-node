@@ -31,7 +31,8 @@ const getKeyValue = async (key) => {
         const file = await promises.readFile(filePath);
         const data = JSON.parse(file);
 
-        return data[key];
+        // Если запрашивается язык, но нет сохраненных настроек, то возвращаем ru по умолчанию.
+        return key === 'language' && !data[key] ? 'ru' : data[key];
     }
 
     return undefined;
