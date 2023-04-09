@@ -31,7 +31,7 @@ const getKeyValue = async (key) => {
         const file = await promises.readFile(filePath);
         const data = JSON.parse(file);
 
-        return data[key];
+        return key === 'language' && !data[key] ? 'ru' : data[key];
     }
 
     return undefined;
