@@ -1,29 +1,22 @@
 import axios from 'axios';
 import {getKeyValue, TOKEN_DICTIONARY} from './storage.service.js';
 
+const ICON_DICTIONARY = {
+    '01': '☀️',
+    '02': '🌤️',
+    '03': '☁️',
+    '04': '☁️',
+    '09': '🌧️',
+    '10': '🌦️',
+    '11': '🌩️',
+    '13': '❄️',
+    '50': '🌫️',
+};
+
 const getIcon = (icon) => {
-    switch (icon.slice(0, -1)) {
-        case '01':
-            return '☀️';
-        case '02':
-            return '🌤️';
-        case '03':
-            return '☁️';
-        case '04':
-            return '☁️';
-        case '09':
-            return '🌧️';
-        case '10':
-            return '🌦️';
-        case '11':
-            return '🌩️';
-        case '13':
-            return '❄️';
-        case '50':
-            return '🌫️';
-        default:
-            return '';
-    }
+    return ICON_DICTIONARY[icon.slice(0, -1)] !== undefined
+        ? ICON_DICTIONARY[icon.slice(0, -1)]
+        : '';
 };
 
 const getWeather = async (city) => {
