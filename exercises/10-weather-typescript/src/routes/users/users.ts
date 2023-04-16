@@ -1,7 +1,7 @@
-import express from 'express';
-import { handleLogin } from '../../handlers/user.handler.js';
+import express, {Errback, Router} from 'express';
+import { handleLogin } from '../../handlers/user.handler';
 
-const userRouter = express.Router();
+const userRouter: Router = express.Router();
 
 /**
  * Обработка сохранения токена (аутентификации)
@@ -9,7 +9,7 @@ const userRouter = express.Router();
 userRouter.post('/login', async (req, res) => {
     try {
         res.status(200).json(await handleLogin(req.body));
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message);
         res.status(400).json({
             success: false,

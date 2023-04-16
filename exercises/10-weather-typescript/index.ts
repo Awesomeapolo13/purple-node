@@ -1,9 +1,11 @@
-import express, { Request, Response, NextFunction } from 'express';
+import { App } from "./src/app";
 
-const port = 8000;
-const app = express();
+/**
+ * Функция запуска приложения.
+ */
+async function bootstrap() {
+    const app = new App();
+    await app.init();
+}
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    
-})
-
+bootstrap();

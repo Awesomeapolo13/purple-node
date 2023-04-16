@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Another one weather API, but on TS",
   "main": "index.js",
-  "type":"module",
+  "type":"commonjs",
   "scripts": {
     "start": "node ./dist/index.js",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
