@@ -1,4 +1,4 @@
-import express, {Errback, Router} from 'express';
+import express, { Router } from 'express';
 import { handleLogin } from '../../handlers/user.handler';
 
 const userRouter: Router = express.Router();
