@@ -1,0 +1,33 @@
+{
+  "name": "weather-cli-purple",
+  "version": "1.0.0",
+  "description": "Weather console app",
+  "main": "weather.js",
+  "bin": {
+    "weather": "weather.js"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Awesomeapolo13/purple-node.git"
+  },
+  "keywords": [
+    "weather",
+    "cli",
+    "forecast"
+  ],
+  "author": "Alexey Logachev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Awesomeapolo13/purple-node/issues"
+  },
+  "homepage": "https://github.com/Awesomeapolo13/purple-node#readme",
+  "dependencies": {
+    "axios": "^1.3.4",
+    "chalk": "^5.2.0",
+    "dedent-js": "^1.0.1"
+  }
+}
