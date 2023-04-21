@@ -1,12 +1,14 @@
-import { LoggerService } from "../../logger/logger.service";
-import {Response, Router} from 'express'
-import { RouteInterface } from "../route.interface";
+import { LoggerService } from "../logger/logger.service";
+import { Response, Router } from 'express'
+import { RouteInterface } from "./route.interface";
 export { Router } from 'express'
 
 export abstract class BaseController {
     private readonly _router: Router
 
-    constructor(private logger: LoggerService) {
+    constructor(
+        protected logger: LoggerService
+    ) {
         this._router = Router();
     }
 
@@ -35,7 +37,7 @@ export abstract class BaseController {
         for(const route of routes) {
             this.logger.log(`[${route.method}] ${route.path}`)
             // Сохраняем контекст контроллера для передачи его в функцию ниже.
-            const handler = route.func.bind(this);
+            route.func.bind(this);
             this._router[route.method](route.path, route.func);
         }
     }
