@@ -1,7 +1,8 @@
 import  { Logger } from "tslog";
+import { LoggerInterface } from "./logger.interface";
 
-export class LoggerService {
-    private logger: Logger;
+export class LoggerService implements LoggerInterface{
+    public logger: Logger;
 
     constructor() {
         this.logger = new Logger({
