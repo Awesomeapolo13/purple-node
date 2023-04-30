@@ -7,6 +7,11 @@ import { LoggerInterface } from "./src/logger/logger.interface";
 import { TYPES } from "./types";
 import { ExceptionFilterInterface } from "./src/service/error/exception.filter.interface";
 
+export interface BootstrapInterface {
+    appContainer: Container;
+    app: App;
+}
+
 /**
  * привязываем сервисы к контейнеру
  */
@@ -18,7 +23,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 });
 
 // Регистрация сервисов в контейнере.
-function bootstrap() {
+function bootstrap(): BootstrapInterface {
     const appContainer = new Container();
     appContainer.load(appBindings);
     // Запуск приложения.
