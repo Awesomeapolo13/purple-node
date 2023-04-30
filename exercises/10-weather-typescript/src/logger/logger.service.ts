@@ -1,6 +1,9 @@
 import  { Logger } from "tslog";
 import { LoggerInterface } from "./logger.interface";
+import {injectable} from "inversify";
 
+// Пометка декоратором, отмечаем что можно поместить этот сервис в контейнер.
+@injectable()
 export class LoggerService implements LoggerInterface{
     public logger: Logger;
 

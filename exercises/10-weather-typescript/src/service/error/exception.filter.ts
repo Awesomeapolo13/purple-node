@@ -1,17 +1,17 @@
 import { NextFunction, Request, Response } from "express";
-import { LoggerService } from "../../logger/logger.service";
 import { ExceptionFilterInterface } from "./exception.filter.interface";
-import {HttpError} from "./http.error";
+import { HttpError } from "./http.error";
+import { inject, injectable } from "inversify";
+import { LoggerInterface } from "../../logger/logger.interface";
+import { TYPES } from "../../../types";
 
 /**
  * Обработчик ошибок.
  */
+@injectable()
 export class ExceptionFilter implements ExceptionFilterInterface{
-    constructor(
-        private logger: LoggerService
-    ) {
-        this.logger = logger;
-    }
+    // С помощью декоратора устанавливаем инстанс логгера.
+    constructor(@inject(TYPES.LoggerInterface) private logger: LoggerInterface) { }
 
     public catch(err: Error | HttpError, req: Request, res: Response, next: NextFunction) {
         if (err instanceof HttpError) {
