@@ -37,8 +37,8 @@ export abstract class BaseController {
 		for (const route of routes) {
 			this.logger.log(`[${route.method}] ${route.path}`);
 			// Сохраняем контекст контроллера для передачи его в функцию ниже.
-			route.func.bind(this);
-			this._router[route.method](route.path, route.func);
+			const handler = route.func.bind(this);
+			this.router[route.method](route.path, handler);
 		}
 	}
 }

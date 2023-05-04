@@ -22,6 +22,7 @@ export class App {
 	}
 
 	public async init(): Promise<void> {
+		this.useMiddleware();
 		this.useRoutes();
 		this.useExceptionFilters();
 		this.server = this.app.listen(this.port);
@@ -34,5 +35,10 @@ export class App {
 
 	public useExceptionFilters(): void {
 		this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
+	}
+
+	public useMiddleware(): void {
+		this.app.use(express.json());
+		this.app.use(express.urlencoded());
 	}
 }
