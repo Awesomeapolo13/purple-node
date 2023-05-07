@@ -8,4 +8,8 @@ export const TYPES = {
     LoggerService: Symbol('LoggerService'),
     UserController: Symbol('UserController'),
     ExceptionFilterInterface: Symbol('ExceptionFilterInterface'),
+    UserHandlerInterface: Symbol('UserHandlerInterface'),
+    UserHandler: Symbol('UserHandler'),
+    StorageServiceInterface: Symbol('StorageServiceInterface'),
+    StorageService: Symbol('StorageService'),
 };

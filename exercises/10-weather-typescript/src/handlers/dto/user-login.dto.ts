@@ -1,4 +1,7 @@
+import {IsNotEmpty, IsString} from "class-validator";
+
 export class UserLoginDto {
-    email: string;
-    password: string;
+    @IsString({message: 'Не передан OpenWeather API токен'})
+    @IsNotEmpty({message: 'Token was saved successfully'})
+    token: string;
 }
