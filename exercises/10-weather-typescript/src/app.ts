@@ -6,6 +6,7 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
 import { ExceptionFilterInterface } from './service/error/exception.filter.interface';
 import {HelpController} from "./controller/help.controller";
+import {CityController} from "./controller/city.controller";
 
 @injectable()
 export class App {
@@ -17,6 +18,7 @@ export class App {
 		@inject(TYPES.LoggerInterface) private logger: LoggerInterface,
 		@inject(TYPES.UserController) private userController: UserController,
 		@inject(TYPES.HelpController) private helpController: HelpController,
+		@inject(TYPES.CityController) private cityController: CityController,
 		@inject(TYPES.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
 	) {
 		this.app = express();
@@ -33,7 +35,8 @@ export class App {
 
 	public useRoutes(): void {
 		this.app.use('/users', this.userController.router);
-		this.app.use('/help', this.helpController.router)
+		this.app.use('/help', this.helpController.router);
+		this.app.use('/city', this.cityController.router);
 	}
 
 	public useExceptionFilters(): void {

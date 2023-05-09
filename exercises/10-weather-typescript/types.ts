@@ -7,11 +7,14 @@ export const TYPES = {
     // Controllers
     UserController: Symbol('UserController'),
     HelpController: Symbol('HelpController'),
+    CityController: Symbol('CityController'),
     // Handlers
     UserHandlerInterface: Symbol('UserHandlerInterface'),
     UserHandler: Symbol('UserHandler'),
     HelpHandlerInterface: Symbol('HelpHandlerInterface'),
     HelpHandler: Symbol('HelpHandler'),
+    CityHandlerInterface: Symbol('CityHandlerInterface'),
+    CityHandler: Symbol('CityHandler'),
     // Other services
     LoggerInterface: Symbol('LoggerInterface'),
     LoggerService: Symbol('LoggerService'),

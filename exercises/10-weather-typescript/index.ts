@@ -15,6 +15,10 @@ import {HelpHandlerInterface} from "./src/handlers/help.handler.interface";
 import {HelpHandler} from "./src/handlers/help.handler";
 import {HelpControllerInterface} from "./src/controller/help.controller.interface";
 import {HelpController} from "./src/controller/help.controller";
+import {CityHandlerInterface} from "./src/handlers/city.handler.interface";
+import {CityControllerInterface} from "./src/controller/city.controller.interface";
+import {CityController} from "./src/controller/city.controller";
+import {CityHandler} from "./src/handlers/city.handler";
 
 export interface BootstrapInterface {
     appContainer: Container;
@@ -29,8 +33,10 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
     bind<ExceptionFilterInterface>(TYPES.ExceptionFilterInterface).to(ExceptionFilter);
     bind<UserControllerInterface>(TYPES.UserController).to(UserController);
     bind<HelpControllerInterface>(TYPES.HelpController).to(HelpController);
+    bind<CityControllerInterface>(TYPES.CityController).to(CityController);
     bind<UserHandlerInterface>(TYPES.UserHandler).to(UserHandler);
     bind<HelpHandlerInterface>(TYPES.HelpHandler).to(HelpHandler);
+    bind<CityHandlerInterface>(TYPES.CityHandler).to(CityHandler);
     bind<StorageServiceInterface>(TYPES.StorageService).to(StorageService)
     bind<App>(TYPES.Application).to(App);
 });
@@ -46,6 +52,4 @@ function bootstrap(): BootstrapInterface {
     return { app, appContainer };
 }
 
-
 export const { app, appContainer } = bootstrap();
-
