@@ -4,12 +4,18 @@ import {ExceptionFilterInterface} from "./src/service/error/exception.filter.int
 
 export const TYPES = {
     Application: Symbol('Application'),
-    LoggerInterface: Symbol('LoggerInterface'),
-    LoggerService: Symbol('LoggerService'),
+    // Controllers
     UserController: Symbol('UserController'),
-    ExceptionFilterInterface: Symbol('ExceptionFilterInterface'),
+    HelpController: Symbol('HelpController'),
+    // Handlers
     UserHandlerInterface: Symbol('UserHandlerInterface'),
     UserHandler: Symbol('UserHandler'),
+    HelpHandlerInterface: Symbol('HelpHandlerInterface'),
+    HelpHandler: Symbol('HelpHandler'),
+    // Other services
+    LoggerInterface: Symbol('LoggerInterface'),
+    LoggerService: Symbol('LoggerService'),
+    ExceptionFilterInterface: Symbol('ExceptionFilterInterface'),
     StorageServiceInterface: Symbol('StorageServiceInterface'),
     StorageService: Symbol('StorageService'),
 };

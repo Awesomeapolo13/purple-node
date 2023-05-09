@@ -11,6 +11,10 @@ import {UserHandler} from "./src/handlers/user.handler";
 import {UserControllerInterface} from "./src/controller/user.controller.interface";
 import {StorageServiceInterface} from "./src/service/storage/storage.service.interface";
 import {StorageService} from "./src/service/storage/storage.service";
+import {HelpHandlerInterface} from "./src/handlers/help.handler.interface";
+import {HelpHandler} from "./src/handlers/help.handler";
+import {HelpControllerInterface} from "./src/controller/help.controller.interface";
+import {HelpController} from "./src/controller/help.controller";
 
 export interface BootstrapInterface {
     appContainer: Container;
@@ -24,7 +28,9 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
     bind<LoggerInterface>(TYPES.LoggerInterface).to(LoggerService);
     bind<ExceptionFilterInterface>(TYPES.ExceptionFilterInterface).to(ExceptionFilter);
     bind<UserControllerInterface>(TYPES.UserController).to(UserController);
+    bind<HelpControllerInterface>(TYPES.HelpController).to(HelpController);
     bind<UserHandlerInterface>(TYPES.UserHandler).to(UserHandler);
+    bind<HelpHandlerInterface>(TYPES.HelpHandler).to(HelpHandler);
     bind<StorageServiceInterface>(TYPES.StorageService).to(StorageService)
     bind<App>(TYPES.Application).to(App);
 });
