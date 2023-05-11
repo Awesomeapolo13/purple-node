@@ -4,6 +4,7 @@ import {ExceptionFilterInterface} from "./src/service/error/exception.filter.int
 
 export const TYPES = {
     Application: Symbol('Application'),
+    ConfigService: Symbol('ConfigService'),
     // Controllers
     UserController: Symbol('UserController'),
     HelpController: Symbol('HelpController'),

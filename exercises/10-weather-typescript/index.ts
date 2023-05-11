@@ -19,6 +19,8 @@ import {CityHandlerInterface} from "./src/handlers/city.handler.interface";
 import {CityControllerInterface} from "./src/controller/city.controller.interface";
 import {CityController} from "./src/controller/city.controller";
 import {CityHandler} from "./src/handlers/city.handler";
+import {ConfigServiceInterface} from "./src/config/config.service.interface";
+import {ConfigService} from "./src/config/config.service";
 
 export interface BootstrapInterface {
     appContainer: Container;
@@ -29,7 +31,7 @@ export interface BootstrapInterface {
  * привязываем сервисы к контейнеру
  */
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
-    bind<LoggerInterface>(TYPES.LoggerInterface).to(LoggerService);
+    bind<LoggerInterface>(TYPES.LoggerInterface).to(LoggerService).inSingletonScope();
     bind<ExceptionFilterInterface>(TYPES.ExceptionFilterInterface).to(ExceptionFilter);
     bind<UserControllerInterface>(TYPES.UserController).to(UserController);
     bind<HelpControllerInterface>(TYPES.HelpController).to(HelpController);
@@ -38,6 +40,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
     bind<HelpHandlerInterface>(TYPES.HelpHandler).to(HelpHandler);
     bind<CityHandlerInterface>(TYPES.CityHandler).to(CityHandler);
     bind<StorageServiceInterface>(TYPES.StorageService).to(StorageService)
+    bind<ConfigServiceInterface>(TYPES.ConfigService).to(ConfigService).inSingletonScope()
     bind<App>(TYPES.Application).to(App);
 });
 

@@ -1,11 +1,12 @@
 import express, { Express } from 'express';
 import { Server } from 'http';
-import { UserController } from './controller/user.controller';
 import { LoggerInterface } from './logger/logger.interface';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
 import { ExceptionFilterInterface } from './service/error/exception.filter.interface';
+import {ConfigServiceInterface} from "./config/config.service.interface";
 import {HelpController} from "./controller/help.controller";
+import {UserController} from "./controller/user.controller";
 import {CityController} from "./controller/city.controller";
 
 @injectable()
@@ -20,6 +21,7 @@ export class App {
 		@inject(TYPES.HelpController) private helpController: HelpController,
 		@inject(TYPES.CityController) private cityController: CityController,
 		@inject(TYPES.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
+		@inject(TYPES.ConfigService) private configService: ConfigServiceInterface
 	) {
 		this.app = express();
 		this.port = 8000;
