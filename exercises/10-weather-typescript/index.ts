@@ -25,6 +25,10 @@ import {LanguageControllerInterface} from "./src/controller/language.controller.
 import {LanguageController} from "./src/controller/language.controller";
 import {LanguageHandlerInterface} from "./src/handlers/language.handler.interface";
 import {LanguageHandler} from "./src/handlers/language.handler";
+import {WeatherControllerInterface} from "./src/controller/weather.controller.interface";
+import {WeatherController} from "./src/controller/weather.controller";
+import {WeatherHandlerInterface} from "./src/handlers/weather.handler.interface";
+import {WeatherHandler} from "./src/handlers/weather.handler";
 
 export interface BootstrapInterface {
     appContainer: Container;
@@ -42,11 +46,13 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
     bind<HelpControllerInterface>(TYPES.HelpController).to(HelpController);
     bind<CityControllerInterface>(TYPES.CityController).to(CityController);
     bind<LanguageControllerInterface>(TYPES.LanguageController).to(LanguageController);
+    bind<WeatherControllerInterface>(TYPES.WeatherController).to(WeatherController);
     // Handlers
     bind<UserHandlerInterface>(TYPES.UserHandler).to(UserHandler);
     bind<HelpHandlerInterface>(TYPES.HelpHandler).to(HelpHandler);
     bind<CityHandlerInterface>(TYPES.CityHandler).to(CityHandler);
     bind<LanguageHandlerInterface>(TYPES.LanguageHandler).to(LanguageHandler);
+    bind<WeatherHandlerInterface>(TYPES.WeatherHandler).to(WeatherHandler);
     // Ohter services
     bind<StorageServiceInterface>(TYPES.StorageService).to(StorageService)
     bind<ConfigServiceInterface>(TYPES.ConfigService).to(ConfigService).inSingletonScope()

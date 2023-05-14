@@ -10,6 +10,7 @@ export const TYPES = {
     HelpController: Symbol('HelpController'),
     CityController: Symbol('CityController'),
     LanguageController: Symbol('LanguageController'),
+    WeatherController: Symbol('WeatherController'),
     // Handlers
     UserHandlerInterface: Symbol('UserHandlerInterface'),
     UserHandler: Symbol('UserHandler'),
@@ -19,6 +20,8 @@ export const TYPES = {
     CityHandler: Symbol('CityHandler'),
     LanguageHandlerInterface: Symbol('LanguageHandlerInterface'),
     LanguageHandler: Symbol('LanguageHandler'),
+    WeatherHandlerInterface: Symbol('WeatherHandlerInterface'),
+    WeatherHandler: Symbol('WeatherHandler'),
     // Other services
     LoggerInterface: Symbol('LoggerInterface'),
     LoggerService: Symbol('LoggerService'),
