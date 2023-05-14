@@ -28,18 +28,15 @@ export class CityHandler implements CityHandlerInterface{
     }
 
     public async handleCityRemove({ city }: CityDto): Promise<string> {
-        return 'Promise.resolve(undefined)';
-    }
-
-
-    async handleHelp(): Promise<string | null> {
         const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
-        let helpMsg = null;
-        try {
-            helpMsg = LogLanguageDictionary[langKey].help;
-        } catch (e) {
+        const cityList = await this.storageService.getKeyValue(AllowedTokenEnum.CITY);
+        let message = LogLanguageDictionary[langKey].cityIsNotExists;
+
+        if (cityList.includes(city)) {
+            await this.storageService.removeKeyValue(AllowedTokenEnum.CITY, city);
+            message = LogLanguageDictionary[langKey].saveCitySuccess;
         }
 
-        return helpMsg;
+        return message;
     }
 }

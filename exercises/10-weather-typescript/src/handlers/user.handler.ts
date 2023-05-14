@@ -28,7 +28,6 @@ export class UserHandler implements UserHandlerInterface {
 	async handleRegister({ email, name, password }: UserRegisterDto): Promise<User | null> {
 		const newUser = new User(email, name);
 		const salt = this.configService.get<string>('SALT');
-		console.log(salt)
 		await newUser.setPassword(password, Number(salt));
 		// проверка что он есть. если есть то его вернем, нет - null
 		// Сохранение токена пользователя и отдача сообщения об успехе.

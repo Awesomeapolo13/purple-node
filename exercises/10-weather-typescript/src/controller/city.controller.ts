@@ -46,7 +46,7 @@ export class CityController extends BaseController implements CityControllerInte
         try {
             message = await this.cityHandler.handleCityAdd(body);
         } catch (e) {
-            throw new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong);
+            return next(new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong));
         }
 
         this.ok(res, {
@@ -60,6 +60,12 @@ export class CityController extends BaseController implements CityControllerInte
         res: Response,
         next: NextFunction
     ): Promise<void> {
+        const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
+        let message: string = LogLanguageDictionary[langKey].wrongCitySetUpMsg;
+        try {
+            message = await this.cityHandler.handleCityRemove(body);
+        } catch (e) {
+            return next(new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong));
+        }
     }
-    
 }
