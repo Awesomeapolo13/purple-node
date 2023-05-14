@@ -8,6 +8,7 @@ import {ConfigServiceInterface} from "./config/config.service.interface";
 import {HelpController} from "./controller/help.controller";
 import {UserController} from "./controller/user.controller";
 import {CityController} from "./controller/city.controller";
+import {LanguageController} from "./controller/language.controller";
 
 @injectable()
 export class App {
@@ -20,6 +21,7 @@ export class App {
 		@inject(TYPES.UserController) private userController: UserController,
 		@inject(TYPES.HelpController) private helpController: HelpController,
 		@inject(TYPES.CityController) private cityController: CityController,
+		@inject(TYPES.LanguageController) private languageController: LanguageController,
 		@inject(TYPES.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
 		@inject(TYPES.ConfigService) private configService: ConfigServiceInterface
 	) {
@@ -39,6 +41,7 @@ export class App {
 		this.app.use('/users', this.userController.router);
 		this.app.use('/help', this.helpController.router);
 		this.app.use('/city', this.cityController.router);
+		this.app.use('/lang', this.languageController.router);
 	}
 
 	public useExceptionFilters(): void {

@@ -21,6 +21,10 @@ import {CityController} from "./src/controller/city.controller";
 import {CityHandler} from "./src/handlers/city.handler";
 import {ConfigServiceInterface} from "./src/config/config.service.interface";
 import {ConfigService} from "./src/config/config.service";
+import {LanguageControllerInterface} from "./src/controller/language.controller.interface";
+import {LanguageController} from "./src/controller/language.controller";
+import {LanguageHandlerInterface} from "./src/handlers/language.handler.interface";
+import {LanguageHandler} from "./src/handlers/language.handler";
 
 export interface BootstrapInterface {
     appContainer: Container;
@@ -33,12 +37,17 @@ export interface BootstrapInterface {
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
     bind<LoggerInterface>(TYPES.LoggerInterface).to(LoggerService).inSingletonScope();
     bind<ExceptionFilterInterface>(TYPES.ExceptionFilterInterface).to(ExceptionFilter);
+    // Controllers
     bind<UserControllerInterface>(TYPES.UserController).to(UserController);
     bind<HelpControllerInterface>(TYPES.HelpController).to(HelpController);
     bind<CityControllerInterface>(TYPES.CityController).to(CityController);
+    bind<LanguageControllerInterface>(TYPES.LanguageController).to(LanguageController);
+    // Handlers
     bind<UserHandlerInterface>(TYPES.UserHandler).to(UserHandler);
     bind<HelpHandlerInterface>(TYPES.HelpHandler).to(HelpHandler);
     bind<CityHandlerInterface>(TYPES.CityHandler).to(CityHandler);
+    bind<LanguageHandlerInterface>(TYPES.LanguageHandler).to(LanguageHandler);
+    // Ohter services
     bind<StorageServiceInterface>(TYPES.StorageService).to(StorageService)
     bind<ConfigServiceInterface>(TYPES.ConfigService).to(ConfigService).inSingletonScope()
     bind<App>(TYPES.Application).to(App);

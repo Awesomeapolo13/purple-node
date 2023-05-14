@@ -9,6 +9,7 @@ export const TYPES = {
     UserController: Symbol('UserController'),
     HelpController: Symbol('HelpController'),
     CityController: Symbol('CityController'),
+    LanguageController: Symbol('LanguageController'),
     // Handlers
     UserHandlerInterface: Symbol('UserHandlerInterface'),
     UserHandler: Symbol('UserHandler'),
@@ -16,6 +17,8 @@ export const TYPES = {
     HelpHandler: Symbol('HelpHandler'),
     CityHandlerInterface: Symbol('CityHandlerInterface'),
     CityHandler: Symbol('CityHandler'),
+    LanguageHandlerInterface: Symbol('LanguageHandlerInterface'),
+    LanguageHandler: Symbol('LanguageHandler'),
     // Other services
     LoggerInterface: Symbol('LoggerInterface'),
     LoggerService: Symbol('LoggerService'),
