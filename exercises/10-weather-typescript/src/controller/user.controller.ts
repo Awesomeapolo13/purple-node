@@ -48,7 +48,7 @@ export class UserController extends BaseController implements UserControllerInte
 		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
 		const result = await this.userHandler.handleLogin(body);
 		if (!result) {
-			throw new HttpError(400, LogLanguageDictionary[langKey].wrongTokenSetUpMsg);
+			return  next(new HttpError(400, LogLanguageDictionary[langKey].wrongTokenSetUpMsg));
 		}
 
 		this.ok(res, {
