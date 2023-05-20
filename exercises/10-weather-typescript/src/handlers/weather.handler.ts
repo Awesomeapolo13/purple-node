@@ -6,6 +6,8 @@ import {StorageServiceInterface} from "../service/storage/storage.service.interf
 import {ApiServiceInterface} from "../service/api/api.service.interface";
 import {LanguageType} from "../dictionary/language/language.type";
 import {AllowedTokenEnum} from "../service/storage/allowed.token.enum";
+import {ApiWeatherRespType} from "../service/api/api.weather.resp.type";
+import {LogLanguageDictionary} from "../dictionary/language/log.language.dictionary";
 
 @injectable()
 export class WeatherHandler implements WeatherHandlerInterface{
@@ -23,12 +25,12 @@ export class WeatherHandler implements WeatherHandlerInterface{
     public async handleWeatherByCity({ city }: WeatherDto): Promise<string> {
         const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
         const result = await this.apiService.getWeather(city);
+        const icon = this.getWeatherStructure(result, langKey);
 
-        // ToDo: Вызвать сервис АПИ
-        return "";
+        return LogLanguageDictionary[langKey].weather(result, icon);
     }
 
-    private getWeatherStructure(weather: object, lang: string) {
-        // const icon = this.apiService.getIcon(weather.weather[0].icon);
+    private getWeatherStructure(weather: ApiWeatherRespType, lang: string): string {
+        return this.apiService.getIcon(weather.weather[0].icon);
     }
 }

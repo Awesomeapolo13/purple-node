@@ -4,7 +4,7 @@ import { MiddlewareInterface } from "./middleware.interface";
 export interface RouteInterface {
 	path: string;
 	method: keyof Pick<Router, 'get' | 'post' | 'patch' | 'put' | 'delete'>;
-	func: (req: Request, res: Response, next: NextFunction) => void;
+	func: ({ query, body }: Request<any, any, any, any>, res: Response, next: NextFunction) => void;
 	middlewares?: MiddlewareInterface[];
 }
 

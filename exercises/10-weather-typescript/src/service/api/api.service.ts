@@ -5,6 +5,8 @@ import {StorageServiceInterface} from "../storage/storage.service.interface";
 import {AllowedTokenEnum} from "../storage/allowed.token.enum";
 import {LanguageType} from "../../dictionary/language/language.type";
 import axios from 'axios';
+import {ApiWeatherRespType} from "./api.weather.resp.type";
+import {LoggerInterface} from "../../logger/logger.interface";
 
 @injectable()
 export class ApiService implements ApiServiceInterface{
@@ -23,7 +25,8 @@ export class ApiService implements ApiServiceInterface{
     };
 
     constructor(
-        @inject(TYPES.StorageService) private readonly storageService: StorageServiceInterface
+        @inject(TYPES.StorageService) private readonly storageService: StorageServiceInterface,
+        @inject(TYPES.LoggerInterface) private logger: LoggerInterface
     ) {
     }
 
@@ -33,21 +36,23 @@ export class ApiService implements ApiServiceInterface{
             : '';
     }
 
-    public async getWeather(city: string): Promise<object> {
+    public async getWeather(city: string): Promise<ApiWeatherRespType> {
         const apiToken: string | undefined = await this.storageService.getKeyValue(AllowedTokenEnum.TOKEN);
         const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
 
         if (!apiToken) {
-            // ToDo: Придумать нормальную ошибку и залогировать.
+            this.logger.error('No token');
             throw new Error('No token');
         }
 
-        console.log({
-            q: city,
-            appid: apiToken,
-            lang: langKey,
-            units: 'metric',
-        });
+        this.logger.log(
+            'Weather request',
+            {
+                q: city,
+                appid: apiToken,
+                lang: langKey,
+                units: 'metric',
+            });
 
         const { data } = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
             params: {
@@ -58,7 +63,7 @@ export class ApiService implements ApiServiceInterface{
             }
         });
 
-        console.log(data);
+        this.logger.log('Weather response', data);
 
         return data;
     };

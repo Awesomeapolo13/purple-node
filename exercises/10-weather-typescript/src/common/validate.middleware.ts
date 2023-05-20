@@ -2,11 +2,6 @@ import { MiddlewareInterface } from "./middleware.interface";
 import {Request, NextFunction, Response} from "express";
 import { ClassConstructor, plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
-import {inject} from "inversify";
-import {TYPES} from "../../types";
-import {StorageServiceInterface} from "../service/storage/storage.service.interface";
-import {LanguageType} from "../dictionary/language/language.type";
-import {AllowedTokenEnum} from "../service/storage/allowed.token.enum";
 
 export class ValidateMiddleware implements MiddlewareInterface {
     constructor(
