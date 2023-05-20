@@ -7,7 +7,6 @@ import {LoggerInterface} from "../logger/logger.interface";
 import {StorageServiceInterface} from "../service/storage/storage.service.interface";
 import {WeatherHandlerInterface} from "../handlers/weather.handler.interface";
 import {ValidateMiddleware} from "../common/validate.middleware";
-import {UserRegisterDto} from "../handlers/dto/user-register.dto";
 import {WeatherDto} from "../handlers/dto/weather.dto";
 
 @injectable()
@@ -36,6 +35,13 @@ export class WeatherController extends BaseController implements WeatherControll
     getWeatherAll(req: Request, res: Response, next: NextFunction): void {
     }
 
-    getWeatherForCity(req: Request, res: Response, next: NextFunction): void {
+    public async getWeatherForCity(
+        { query }: Request<{}, {}, {}, WeatherDto>,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
+        const result = await this.weatherHandler.handleWeatherByCity(query);
+
+        this.ok(res, {success: true});
     }
 }

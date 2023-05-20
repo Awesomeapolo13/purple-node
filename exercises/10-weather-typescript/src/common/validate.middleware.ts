@@ -13,11 +13,19 @@ export class ValidateMiddleware implements MiddlewareInterface {
         private classToValidate: ClassConstructor<object>
     ) {
     }
-    execute({ body }: Request, res: Response, next: NextFunction): void {
-        const instance = plainToInstance(this.classToValidate, body);
+    execute({method, query, body }: Request, res: Response, next: NextFunction): void {
+        const instance = this.mapToDto(method, query, body );
         validate(instance).then((errors) => {
             // Определить сообщение об ошибрах по их ключам.
             errors.length > 0 ? res.status(400).send(errors) : next();
         });
+    }
+
+    private mapToDto(method: string, query: any, body: any): object {
+        switch (method) {
+            case 'GET': return plainToInstance(this.classToValidate, query);
+            case 'POST': return plainToInstance(this.classToValidate, body);
+            default: return plainToInstance(this.classToValidate, null);
+        }
     }
 }

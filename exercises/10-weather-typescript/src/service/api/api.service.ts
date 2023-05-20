@@ -42,6 +42,13 @@ export class ApiService implements ApiServiceInterface{
             throw new Error('No token');
         }
 
+        console.log({
+            q: city,
+            appid: apiToken,
+            lang: langKey,
+            units: 'metric',
+        });
+
         const { data } = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
             params: {
                 q: city,
@@ -50,6 +57,8 @@ export class ApiService implements ApiServiceInterface{
                 units: 'metric',
             }
         });
+
+        console.log(data);
 
         return data;
     };

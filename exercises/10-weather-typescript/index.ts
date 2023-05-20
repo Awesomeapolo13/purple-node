@@ -29,6 +29,8 @@ import {WeatherControllerInterface} from "./src/controller/weather.controller.in
 import {WeatherController} from "./src/controller/weather.controller";
 import {WeatherHandlerInterface} from "./src/handlers/weather.handler.interface";
 import {WeatherHandler} from "./src/handlers/weather.handler";
+import {ApiServiceInterface} from "./src/service/api/api.service.interface";
+import {ApiService} from "./src/service/api/api.service";
 
 export interface BootstrapInterface {
     appContainer: Container;
@@ -54,8 +56,9 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
     bind<LanguageHandlerInterface>(TYPES.LanguageHandler).to(LanguageHandler);
     bind<WeatherHandlerInterface>(TYPES.WeatherHandler).to(WeatherHandler);
     // Ohter services
-    bind<StorageServiceInterface>(TYPES.StorageService).to(StorageService)
-    bind<ConfigServiceInterface>(TYPES.ConfigService).to(ConfigService).inSingletonScope()
+    bind<StorageServiceInterface>(TYPES.StorageService).to(StorageService);
+    bind<ConfigServiceInterface>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
+    bind<ApiServiceInterface>(TYPES.ApiService).to(ApiService);
     bind<App>(TYPES.Application).to(App);
 });
 

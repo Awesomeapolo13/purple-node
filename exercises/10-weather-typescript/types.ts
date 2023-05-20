@@ -28,4 +28,6 @@ export const TYPES = {
     ExceptionFilterInterface: Symbol('ExceptionFilterInterface'),
     StorageServiceInterface: Symbol('StorageServiceInterface'),
     StorageService: Symbol('StorageService'),
+    ApiServiceInterface: Symbol('ApiServiceInterface'),
+    ApiService: Symbol('ApiService'),
 };
