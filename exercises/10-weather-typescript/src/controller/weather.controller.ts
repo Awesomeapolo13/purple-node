@@ -23,7 +23,7 @@ export class WeatherController extends BaseController implements WeatherControll
         super(logger);
         this.bindRoutes([
             {
-                path: '/weather',
+                path: '/all',
                 method: 'get',
                 func: this.getWeatherAll,
             },
@@ -36,7 +36,24 @@ export class WeatherController extends BaseController implements WeatherControll
         ]);
     }
 
-    getWeatherAll(req: Request, res: Response, next: NextFunction): void {
+    public async getWeatherAll(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
+        const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
+        let result: string[] = [];
+
+        try {
+            result = await this.weatherHandler.handleWeatherAll();
+        } catch (e) {
+            return next(new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong));
+        }
+
+        this.ok(res, {
+            success: true,
+            weatherList: result,
+        });
     }
 
     public async getWeatherForCity(

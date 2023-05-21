@@ -17,9 +17,18 @@ export class WeatherHandler implements WeatherHandlerInterface{
     ) {
     }
 
-    public async handleWeatherAll(): Promise<string> {
-        // ToDo: Вызвать сервис АПИ
-        return "";
+    public async handleWeatherAll(): Promise<string[]> {
+        const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
+        const cities = await this.storageService.getKeyValue(AllowedTokenEnum.CITY);
+        let weatherList: string[] = [];
+
+        for (const city of cities) {
+            let weather = await this.apiService.getWeather(city);
+            let icon = this.getWeatherStructure(weather, langKey);
+            weatherList.push(LogLanguageDictionary[langKey].weather(weather, icon));
+        }
+
+        return weatherList;
     }
 
     public async handleWeatherByCity({ city }: WeatherDto): Promise<string> {
@@ -30,6 +39,9 @@ export class WeatherHandler implements WeatherHandlerInterface{
         return LogLanguageDictionary[langKey].weather(result, icon);
     }
 
+    /**
+     * Получает иконку из ответа апи.
+     */
     private getWeatherStructure(weather: ApiWeatherRespType, lang: string): string {
         return this.apiService.getIcon(weather.weather[0].icon);
     }
