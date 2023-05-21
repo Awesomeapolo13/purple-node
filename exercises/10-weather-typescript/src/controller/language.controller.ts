@@ -12,6 +12,7 @@ import {LanguageDto} from "../handlers/dto/language.dto";
 import {LanguageHandlerInterface} from "../handlers/language.handler.interface";
 import {LogLanguageDictionary} from "../dictionary/language/log.language.dictionary";
 import {HttpError} from "../service/error/http.error";
+import {AuthMiddleware} from "../common/auth.middleware";
 
 @injectable()
 export class LanguageController extends BaseController implements LanguageControllerInterface{
@@ -26,7 +27,7 @@ export class LanguageController extends BaseController implements LanguageContro
                 path: '/set',
                 method: 'post',
                 func: this.langSet,
-                middlewares: [new ValidateMiddleware(LanguageDto)]
+                middlewares: [new ValidateMiddleware(LanguageDto), new AuthMiddleware(this.storageService)]
             }
         ]);
     }

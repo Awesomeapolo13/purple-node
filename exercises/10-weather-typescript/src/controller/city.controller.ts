@@ -12,6 +12,7 @@ import {LanguageType} from "../dictionary/language/language.type";
 import {AllowedTokenEnum} from "../service/storage/allowed.token.enum";
 import {HttpError} from "../service/error/http.error";
 import {LogLanguageDictionary} from "../dictionary/language/log.language.dictionary";
+import {AuthMiddleware} from "../common/auth.middleware";
 
 @injectable()
 export class CityController extends BaseController implements CityControllerInterface{
@@ -26,13 +27,13 @@ export class CityController extends BaseController implements CityControllerInte
                 path: '/add',
                 method: 'post',
                 func: this.handleCityAdd,
-                middlewares: [new ValidateMiddleware(CityDto)]
+                middlewares: [new ValidateMiddleware(CityDto), new AuthMiddleware(this.storageService)]
             },
             {
                 path: '/remove',
                 method: 'post',
                 func: this.handleCityRemove,
-                middlewares: [new ValidateMiddleware(CityDto)]
+                middlewares: [new ValidateMiddleware(CityDto), new AuthMiddleware(this.storageService)]
             },
         ]);
     }
@@ -67,5 +68,10 @@ export class CityController extends BaseController implements CityControllerInte
         } catch (e) {
             return next(new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong));
         }
+
+        this.ok(res, {
+            success: true,
+            message: message
+        });
     }
 }

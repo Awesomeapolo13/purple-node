@@ -12,6 +12,7 @@ import {LanguageType} from "../dictionary/language/language.type";
 import {AllowedTokenEnum} from "../service/storage/allowed.token.enum";
 import {LogLanguageDictionary} from "../dictionary/language/log.language.dictionary";
 import {HttpError} from "../service/error/http.error";
+import {AuthMiddleware} from "../common/auth.middleware";
 
 @injectable()
 export class WeatherController extends BaseController implements WeatherControllerInterface {
@@ -26,12 +27,13 @@ export class WeatherController extends BaseController implements WeatherControll
                 path: '/all',
                 method: 'get',
                 func: this.getWeatherAll,
+                middlewares: [new AuthMiddleware(this.storageService)]
             },
             {
                 path: '/',
                 method: 'get',
                 func: this.getWeatherForCity,
-                middlewares: [new ValidateMiddleware(WeatherDto)],
+                middlewares: [new ValidateMiddleware(WeatherDto), new AuthMiddleware(this.storageService)],
             },
         ]);
     }
