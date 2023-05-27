@@ -13,6 +13,8 @@ import {AllowedTokenEnum} from "../service/storage/allowed.token.enum";
 import {StorageServiceInterface} from "../service/storage/storage.service.interface";
 import {LogLanguageDictionary} from "../dictionary/language/log.language.dictionary";
 import {LanguageType} from "../dictionary/language/language.type";
+import {sign} from 'jsonwebtoken';
+
 /**
  * Контроллер пользователей.
  */
@@ -68,5 +70,26 @@ export class UserController extends BaseController implements UserControllerInte
 		}
 
 		this.ok(res, 'Register ' + result.name + ' successfully');
+	}
+
+	private signJWT(email: string, secret: string): Promise<string> {
+		return new Promise<string>((resolve, reject) => {
+			sign(
+				{
+					email,
+					iat: Math.floor(Date.now() / 1000), // когда выдали токен
+				},
+				secret,
+				{
+					algorithm: 'HS256'
+				},
+				(err, token) => {
+					if (err) {
+						reject(err);
+					}
+					resolve(token as string);
+				},
+			)
+		});
 	}
 }
