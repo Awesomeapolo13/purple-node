@@ -39,6 +39,10 @@ export class App {
 		this.logger.log(`Сервер запущен на http://localhost:${this.port}`);
 	}
 
+	public close(): void {
+		this.server.close();
+	}
+
 	public useRoutes(): void {
 		this.app.use('/users', this.userController.router);
 		this.app.use('/help', this.helpController.router);

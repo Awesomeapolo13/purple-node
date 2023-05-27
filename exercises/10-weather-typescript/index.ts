@@ -63,14 +63,14 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 });
 
 // Регистрация сервисов в контейнере.
-function bootstrap(): BootstrapInterface {
+async function bootstrap(): Promise<BootstrapInterface> {
     const appContainer = new Container();
     appContainer.load(appBindings);
     // Запуск приложения.
     const app = appContainer.get<App>(TYPES.Application);
-    app.init();
+    await app.init();
 
     return { app, appContainer };
 }
 
-export const { app, appContainer } = bootstrap();
+export const boot = bootstrap();
