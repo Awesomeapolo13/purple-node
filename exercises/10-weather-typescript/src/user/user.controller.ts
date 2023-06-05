@@ -4,10 +4,9 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types';
 import { LoggerInterface } from '../logger/logger.interface';
 import { UserControllerInterface } from './user.controller.interface';
-import { UserLoginDto } from '../handlers/dto/user-login.dto';
-import { UserRegisterDto } from '../handlers/dto/user-register.dto';
-import { UserHandlerInterface } from '../handlers/user.handler.interface';
-import { HttpError } from '../service/error/http.error';
+import { UserLoginDto } from './user-login.dto';
+import { UserHandlerInterface } from './user.handler.interface';
+import { HttpError } from '../common/error/http.error';
 import { ValidateMiddleware } from '../common/validate.middleware';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
@@ -27,12 +26,6 @@ export class UserController extends BaseController implements UserControllerInte
 	) {
 		super(logger);
 		this.bindRoutes([
-			{
-				path: '/register',
-				method: 'post',
-				func: this.register,
-				middlewares: [new ValidateMiddleware(UserRegisterDto)],
-			},
 			{
 				path: '/login',
 				method: 'post',
@@ -56,40 +49,6 @@ export class UserController extends BaseController implements UserControllerInte
 		this.ok(res, {
 			success: true,
 			message: LogLanguageDictionary[langKey].saveTokenSuccess,
-		});
-	}
-
-	public async register(
-		{ body }: Request<{}, {}, UserRegisterDto>,
-		res: Response,
-		next: NextFunction,
-	): Promise<void> {
-		const result = await this.userHandler.handleRegister(body);
-		if (!result) {
-			return next(new HttpError(422, 'Такой пользователь уже существует'));
-		}
-
-		this.ok(res, 'Register ' + result.name + ' successfully');
-	}
-
-	private signJWT(email: string, secret: string): Promise<string> {
-		return new Promise<string>((resolve, reject) => {
-			sign(
-				{
-					email,
-					iat: Math.floor(Date.now() / 1000), // когда выдали токен
-				},
-				secret,
-				{
-					algorithm: 'HS256',
-				},
-				(err, token) => {
-					if (err) {
-						reject(err);
-					}
-					resolve(token as string);
-				},
-			);
 		});
 	}
 }

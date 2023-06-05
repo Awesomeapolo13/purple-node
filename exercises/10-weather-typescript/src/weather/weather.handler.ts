@@ -1,12 +1,12 @@
 import { WeatherHandlerInterface } from './weather.handler.interface';
-import { WeatherDto } from './dto/weather.dto';
+import { WeatherDto } from './weather.dto';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
-import { ApiServiceInterface } from '../service/api/api.service.interface';
+import { ApiServiceInterface } from '../service/weather.api/api.service.interface';
 import { LanguageType } from '../dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
-import { ApiWeatherRespType } from '../service/api/api.weather.resp.type';
+import { ApiWeatherRespType } from '../service/weather.api/api.weather.resp.type';
 import { LogLanguageDictionary } from '../dictionary/language/log.language.dictionary';
 
 @injectable()

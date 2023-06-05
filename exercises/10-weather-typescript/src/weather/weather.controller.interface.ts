@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { WeatherDto } from '../handlers/dto/weather.dto';
+import { WeatherDto } from './weather.dto';
 
 export interface WeatherControllerInterface {
 	getWeatherForCity: (

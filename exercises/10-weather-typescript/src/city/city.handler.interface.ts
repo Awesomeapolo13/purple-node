@@ -1,4 +1,4 @@
-import { CityDto } from './dto/city.dto';
+import { CityDto } from './city.dto';
 
 export interface CityHandlerInterface {
 	/**

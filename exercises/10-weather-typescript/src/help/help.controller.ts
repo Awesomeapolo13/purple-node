@@ -2,12 +2,12 @@ import { inject, injectable } from 'inversify';
 import { NextFunction, Request, Response } from 'express';
 import { TYPES } from '../../types';
 import { LoggerInterface } from '../logger/logger.interface';
-import { HelpHandlerInterface } from '../handlers/help.handler.interface';
+import { HelpHandlerInterface } from './help.handler.interface';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
 import { BaseController } from '../common/base.controller';
 import { LanguageType } from '../dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
-import { HttpError } from '../service/error/http.error';
+import { HttpError } from '../common/error/http.error';
 import { LogLanguageDictionary } from '../dictionary/language/log.language.dictionary';
 import { HelpControllerInterface } from './help.controller.interface';
 

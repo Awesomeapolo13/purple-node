@@ -4,13 +4,13 @@ import { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types';
 import { LoggerInterface } from '../logger/logger.interface';
-import { CityDto } from '../handlers/dto/city.dto';
+import { CityDto } from './city.dto';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
-import { CityHandlerInterface } from '../handlers/city.handler.interface';
+import { CityHandlerInterface } from './city.handler.interface';
 import { ValidateMiddleware } from '../common/validate.middleware';
 import { LanguageType } from '../dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
-import { HttpError } from '../service/error/http.error';
+import { HttpError } from '../common/error/http.error';
 import { LogLanguageDictionary } from '../dictionary/language/log.language.dictionary';
 import { AuthMiddleware } from '../common/auth.middleware';
 

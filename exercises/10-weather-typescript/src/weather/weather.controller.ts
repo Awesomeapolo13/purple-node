@@ -5,13 +5,13 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types';
 import { LoggerInterface } from '../logger/logger.interface';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
-import { WeatherHandlerInterface } from '../handlers/weather.handler.interface';
+import { WeatherHandlerInterface } from './weather.handler.interface';
 import { ValidateMiddleware } from '../common/validate.middleware';
-import { WeatherDto } from '../handlers/dto/weather.dto';
+import { WeatherDto } from './weather.dto';
 import { LanguageType } from '../dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
 import { LogLanguageDictionary } from '../dictionary/language/log.language.dictionary';
-import { HttpError } from '../service/error/http.error';
+import { HttpError } from '../common/error/http.error';
 import { AuthMiddleware } from '../common/auth.middleware';
 
 @injectable()

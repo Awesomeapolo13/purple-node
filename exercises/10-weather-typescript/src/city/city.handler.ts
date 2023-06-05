@@ -5,7 +5,7 @@ import { LanguageType } from '../dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
 import { LogLanguageDictionary } from '../dictionary/language/log.language.dictionary';
 import { CityHandlerInterface } from './city.handler.interface';
-import { CityDto } from './dto/city.dto';
+import { CityDto } from './city.dto';
 
 @injectable()
 export class CityHandler implements CityHandlerInterface {

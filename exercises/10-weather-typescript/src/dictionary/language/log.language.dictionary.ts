@@ -1,7 +1,7 @@
 import { LanguageEnum } from './language.enum';
 import { Response } from 'express';
 import { LanguageMsgInterface } from './language.msg.interface';
-import { ApiWeatherRespType } from '../../service/api/api.weather.resp.type';
+import { ApiWeatherRespType } from '../../service/weather.api/api.weather.resp.type';
 
 export class LogLanguageDictionary {
 	public static readonly AVAILABLE_LANGS = LanguageEnum;

@@ -8,10 +8,10 @@ import { TYPES } from '../../types';
 import { LoggerInterface } from '../logger/logger.interface';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
 import { ValidateMiddleware } from '../common/validate.middleware';
-import { LanguageDto } from '../handlers/dto/language.dto';
-import { LanguageHandlerInterface } from '../handlers/language.handler.interface';
+import { LanguageDto } from './language.dto';
+import { LanguageHandlerInterface } from './language.handler.interface';
 import { LogLanguageDictionary } from '../dictionary/language/log.language.dictionary';
-import { HttpError } from '../service/error/http.error';
+import { HttpError } from '../common/error/http.error';
 import { AuthMiddleware } from '../common/auth.middleware';
 
 @injectable()

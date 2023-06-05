@@ -3,13 +3,13 @@ import { Server } from 'http';
 import { LoggerInterface } from './logger/logger.interface';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
-import { ExceptionFilterInterface } from './service/error/exception.filter.interface';
+import { ExceptionFilterInterface } from './common/error/exception.filter.interface';
 import { ConfigServiceInterface } from './config/config.service.interface';
-import { HelpController } from './controller/help.controller';
-import { UserController } from './controller/user.controller';
-import { CityController } from './controller/city.controller';
-import { LanguageController } from './controller/language.controller';
-import { WeatherController } from './controller/weather.controller';
+import { HelpController } from './help/help.controller';
+import { UserController } from './user/user.controller';
+import { CityController } from './city/city.controller';
+import { LanguageController } from './language/language.controller';
+import { WeatherController } from './weather/weather.controller';
 
 @injectable()
 export class App {

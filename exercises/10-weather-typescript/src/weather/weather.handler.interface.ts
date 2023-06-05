@@ -1,4 +1,4 @@
-import { WeatherDto } from './dto/weather.dto';
+import { WeatherDto } from './weather.dto';
 
 export interface WeatherHandlerInterface {
 	handleWeatherByCity: (weatherDto: WeatherDto) => Promise<string>;

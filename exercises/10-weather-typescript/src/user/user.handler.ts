@@ -1,7 +1,5 @@
 import { UserHandlerInterface } from './user.handler.interface';
-import { UserRegisterDto } from './dto/user-register.dto';
-import { UserLoginDto } from './dto/user-login.dto';
-import { User } from '../entity/user.entity';
+import { UserLoginDto } from './user-login.dto';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
@@ -22,15 +20,5 @@ export class UserHandler implements UserHandlerInterface {
 		}
 
 		return true;
-	}
-
-	async handleRegister({ email, name, password }: UserRegisterDto): Promise<User | null> {
-		const newUser = new User(email, name);
-		const salt = this.configService.get<string>('SALT');
-		await newUser.setPassword(password, Number(salt));
-		// проверка что он есть. если есть то его вернем, нет - null
-		// Сохранение токена пользователя и отдача сообщения об успехе.
-
-		return null;
 	}
 }
