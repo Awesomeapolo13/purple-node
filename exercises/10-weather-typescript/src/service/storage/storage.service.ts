@@ -1,10 +1,9 @@
 import { StorageServiceInterface } from './storage.service.interface';
 import { promises } from 'fs';
-import { AllowedTokenEnum } from './allowed.token.enum';
 import { join } from 'path';
 import { homedir } from 'os';
-import { LogLanguageDictionary } from '../../dictionary/language/log.language.dictionary';
 import { injectable } from 'inversify';
+import * as stream from 'stream';
 
 @injectable()
 export class StorageService implements StorageServiceInterface {
@@ -19,29 +18,60 @@ export class StorageService implements StorageServiceInterface {
 		}
 	}
 
-	public async getKeyValue(key: string): Promise<any> {
-		if (await this.isExists(StorageService.FILE_PATH)) {
-			const file = await promises.readFile(StorageService.FILE_PATH);
-			const data = JSON.parse(file.toString());
+	public async getKeyValue<T = any>(key: string): Promise<T> {
+		await this.checkSettingsExists();
+		const file = await promises.readFile(StorageService.FILE_PATH);
+		const data = JSON.parse(file.toString());
 
-			// Если запрашивается язык, но нет сохраненных настроек, то возвращаем ru по умолчанию.
-			return key === AllowedTokenEnum.LANGUAGE && !data[key]
-				? LogLanguageDictionary.AVAILABLE_LANGS.RU
-				: data[key];
+		return data[key];
+	}
+
+	public async saveKeyValue(key: string, value: any): Promise<void> {
+		const filePath = StorageService.FILE_PATH;
+		await this.checkSettingsExists();
+		const file = await promises.readFile(filePath);
+		const data = JSON.parse(file.toString());
+		data[key] = value;
+		await promises.writeFile(filePath, JSON.stringify(data));
+	}
+
+	public async addKeyValue(key: string, value: any): Promise<void> {
+		const filePath = StorageService.FILE_PATH;
+		await this.checkSettingsExists();
+		const file = await promises.readFile(filePath);
+		const data = JSON.parse(file.toString());
+
+		if (!data[key]) {
+			data[key] = [];
 		}
 
-		return undefined;
+		if (!data[key].includes(value)) {
+			data[key].push(value);
+			await promises.writeFile(filePath, JSON.stringify(data));
+		}
 	}
 
-	saveKeyValue(key: string, value: any): Promise<void> {
-		return Promise.resolve(undefined);
+	public async removeKeyValue(key: string, value: any): Promise<void> {
+		const filePath = StorageService.FILE_PATH;
+		await this.checkSettingsExists();
+		const file = await promises.readFile(filePath);
+		const data = JSON.parse(file.toString());
+
+		if (!data[key]) {
+			data[key] = [];
+		}
+
+		const valueId = data[key].indexOf(value);
+		if (valueId > -1) {
+			data[key].splice(valueId, 1);
+		}
+
+		await promises.writeFile(filePath, JSON.stringify(data));
 	}
 
-	addKeyValue(key: string, value: any): Promise<void> {
-		return Promise.resolve(undefined);
-	}
-
-	removeKeyValue(key: string, value: any): Promise<void> {
-		return Promise.resolve(undefined);
+	private async checkSettingsExists(): Promise<void> {
+		if (!(await this.isExists(StorageService.FILE_PATH))) {
+			throw new Error('Customer settings file is not exists');
+		}
 	}
 }

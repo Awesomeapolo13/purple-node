@@ -28,7 +28,7 @@ export class App {
 		@inject(TYPES.ConfigService) private configService: ConfigServiceInterface,
 	) {
 		this.app = express();
-		this.port = 8000;
+		this.port = Number(configService.get('SERVER_PORT'));
 	}
 
 	public async init(): Promise<void> {
