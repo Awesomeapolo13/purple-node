@@ -1,3 +1,3 @@
 export interface HelpHandlerInterface {
-    handleHelp: () => Promise<string|null>
+	handleHelp: () => Promise<string | null>;
 }

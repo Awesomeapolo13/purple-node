@@ -1,6 +1,6 @@
-import { IsString } from "class-validator";
+import { IsString } from 'class-validator';
 
 export class LanguageDto {
-    @IsString({message: 'Не язык'})
-    lang: string;
+	@IsString({ message: 'Не язык' })
+	lang: string;
 }

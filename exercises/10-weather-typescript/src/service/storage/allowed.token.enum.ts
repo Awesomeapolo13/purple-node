@@ -1,5 +1,5 @@
 export enum AllowedTokenEnum {
-    TOKEN = 'token',
-    CITY = 'city',
-    LANGUAGE = 'language',
+	TOKEN = 'token',
+	CITY = 'city',
+	LANGUAGE = 'language',
 }

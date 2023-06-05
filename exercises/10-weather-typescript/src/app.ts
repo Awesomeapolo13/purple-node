@@ -4,12 +4,12 @@ import { LoggerInterface } from './logger/logger.interface';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
 import { ExceptionFilterInterface } from './service/error/exception.filter.interface';
-import {ConfigServiceInterface} from "./config/config.service.interface";
-import {HelpController} from "./controller/help.controller";
-import {UserController} from "./controller/user.controller";
-import {CityController} from "./controller/city.controller";
-import {LanguageController} from "./controller/language.controller";
-import {WeatherController} from "./controller/weather.controller";
+import { ConfigServiceInterface } from './config/config.service.interface';
+import { HelpController } from './controller/help.controller';
+import { UserController } from './controller/user.controller';
+import { CityController } from './controller/city.controller';
+import { LanguageController } from './controller/language.controller';
+import { WeatherController } from './controller/weather.controller';
 
 @injectable()
 export class App {
@@ -25,7 +25,7 @@ export class App {
 		@inject(TYPES.LanguageController) private languageController: LanguageController,
 		@inject(TYPES.WeatherController) private weatherController: WeatherController,
 		@inject(TYPES.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
-		@inject(TYPES.ConfigService) private configService: ConfigServiceInterface
+		@inject(TYPES.ConfigService) private configService: ConfigServiceInterface,
 	) {
 		this.app = express();
 		this.port = 8000;

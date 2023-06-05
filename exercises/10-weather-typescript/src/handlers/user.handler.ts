@@ -1,20 +1,19 @@
-import { UserHandlerInterface } from "./user.handler.interface";
-import { UserRegisterDto } from "./dto/user-register.dto";
-import { UserLoginDto } from "./dto/user-login.dto";
-import { User } from "../entity/user.entity";
-import {inject, injectable} from "inversify";
-import {TYPES} from "../../types";
-import {StorageServiceInterface} from "../service/storage/storage.service.interface";
-import {AllowedTokenEnum} from "../service/storage/allowed.token.enum";
-import {ConfigServiceInterface} from "../config/config.service.interface";
+import { UserHandlerInterface } from './user.handler.interface';
+import { UserRegisterDto } from './dto/user-register.dto';
+import { UserLoginDto } from './dto/user-login.dto';
+import { User } from '../entity/user.entity';
+import { inject, injectable } from 'inversify';
+import { TYPES } from '../../types';
+import { StorageServiceInterface } from '../service/storage/storage.service.interface';
+import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
+import { ConfigServiceInterface } from '../config/config.service.interface';
 
 @injectable()
 export class UserHandler implements UserHandlerInterface {
 	constructor(
 		@inject(TYPES.StorageService) private readonly storageService: StorageServiceInterface,
-		@inject(TYPES.ConfigService) private readonly configService: ConfigServiceInterface
-	) {
-	}
+		@inject(TYPES.ConfigService) private readonly configService: ConfigServiceInterface,
+	) {}
 	async handleLogin({ token }: UserLoginDto): Promise<boolean> {
 		try {
 			await this.storageService.saveKeyValue(AllowedTokenEnum.TOKEN, token);

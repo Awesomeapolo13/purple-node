@@ -4,16 +4,16 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types';
 import { LoggerInterface } from '../logger/logger.interface';
 import { UserControllerInterface } from './user.controller.interface';
-import { UserLoginDto } from "../handlers/dto/user-login.dto";
-import { UserRegisterDto } from "../handlers/dto/user-register.dto";
-import {UserHandlerInterface} from "../handlers/user.handler.interface";
-import {HttpError} from "../service/error/http.error";
-import {ValidateMiddleware} from "../common/validate.middleware";
-import {AllowedTokenEnum} from "../service/storage/allowed.token.enum";
-import {StorageServiceInterface} from "../service/storage/storage.service.interface";
-import {LogLanguageDictionary} from "../dictionary/language/log.language.dictionary";
-import {LanguageType} from "../dictionary/language/language.type";
-import {sign} from 'jsonwebtoken';
+import { UserLoginDto } from '../handlers/dto/user-login.dto';
+import { UserRegisterDto } from '../handlers/dto/user-register.dto';
+import { UserHandlerInterface } from '../handlers/user.handler.interface';
+import { HttpError } from '../service/error/http.error';
+import { ValidateMiddleware } from '../common/validate.middleware';
+import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
+import { StorageServiceInterface } from '../service/storage/storage.service.interface';
+import { LogLanguageDictionary } from '../dictionary/language/log.language.dictionary';
+import { LanguageType } from '../dictionary/language/language.type';
+import { sign } from 'jsonwebtoken';
 
 /**
  * Контроллер пользователей.
@@ -23,7 +23,7 @@ export class UserController extends BaseController implements UserControllerInte
 	constructor(
 		@inject(TYPES.LoggerInterface) protected logger: LoggerInterface,
 		@inject(TYPES.UserHandler) private userHandler: UserHandlerInterface,
-		@inject(TYPES.StorageService) private readonly storageService: StorageServiceInterface
+		@inject(TYPES.StorageService) private readonly storageService: StorageServiceInterface,
 	) {
 		super(logger);
 		this.bindRoutes([
@@ -31,13 +31,13 @@ export class UserController extends BaseController implements UserControllerInte
 				path: '/register',
 				method: 'post',
 				func: this.register,
-				middlewares: [new ValidateMiddleware(UserRegisterDto)]
+				middlewares: [new ValidateMiddleware(UserRegisterDto)],
 			},
 			{
 				path: '/login',
 				method: 'post',
 				func: this.login,
-				middlewares: [new ValidateMiddleware(UserLoginDto)]
+				middlewares: [new ValidateMiddleware(UserLoginDto)],
 			},
 		]);
 	}
@@ -45,24 +45,24 @@ export class UserController extends BaseController implements UserControllerInte
 	public async login(
 		{ body }: Request<{}, {}, UserLoginDto>,
 		res: Response,
-		next: NextFunction
+		next: NextFunction,
 	): Promise<void> {
 		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
 		const result = await this.userHandler.handleLogin(body);
 		if (!result) {
-			return  next(new HttpError(400, LogLanguageDictionary[langKey].wrongTokenSetUpMsg));
+			return next(new HttpError(400, LogLanguageDictionary[langKey].wrongTokenSetUpMsg));
 		}
 
 		this.ok(res, {
 			success: true,
-			message: LogLanguageDictionary[langKey].saveTokenSuccess
+			message: LogLanguageDictionary[langKey].saveTokenSuccess,
 		});
 	}
 
 	public async register(
 		{ body }: Request<{}, {}, UserRegisterDto>,
 		res: Response,
-		next: NextFunction
+		next: NextFunction,
 	): Promise<void> {
 		const result = await this.userHandler.handleRegister(body);
 		if (!result) {
@@ -81,7 +81,7 @@ export class UserController extends BaseController implements UserControllerInte
 				},
 				secret,
 				{
-					algorithm: 'HS256'
+					algorithm: 'HS256',
 				},
 				(err, token) => {
 					if (err) {
@@ -89,7 +89,7 @@ export class UserController extends BaseController implements UserControllerInte
 					}
 					resolve(token as string);
 				},
-			)
+			);
 		});
 	}
 }

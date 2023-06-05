@@ -1,5 +1,5 @@
-import { Request, NextFunction, Response } from "express";
+import { Request, NextFunction, Response } from 'express';
 
 export interface MiddlewareInterface {
-    execute: (req: Request, res: Response, next: NextFunction) => void;
+	execute: (req: Request, res: Response, next: NextFunction) => void;
 }
