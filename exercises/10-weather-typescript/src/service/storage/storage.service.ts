@@ -3,7 +3,6 @@ import { promises } from 'fs';
 import { join } from 'path';
 import { homedir } from 'os';
 import { injectable } from 'inversify';
-import * as stream from 'stream';
 
 @injectable()
 export class StorageService implements StorageServiceInterface {
@@ -19,31 +18,21 @@ export class StorageService implements StorageServiceInterface {
 	}
 
 	public async getKeyValue<T = any>(key: string): Promise<T> {
-		await this.checkSettingsExists();
-		const file = await promises.readFile(StorageService.FILE_PATH);
-		const data = JSON.parse(file.toString());
+		const data = await this.getData(StorageService.FILE_PATH);
 
 		return data[key];
 	}
 
 	public async saveKeyValue(key: string, value: any): Promise<void> {
 		const filePath = StorageService.FILE_PATH;
-		await this.checkSettingsExists();
-		const file = await promises.readFile(filePath);
-		const data = JSON.parse(file.toString());
+		const data = await this.getData(filePath);
 		data[key] = value;
 		await promises.writeFile(filePath, JSON.stringify(data));
 	}
 
 	public async addKeyValue(key: string, value: any): Promise<void> {
 		const filePath = StorageService.FILE_PATH;
-		await this.checkSettingsExists();
-		const file = await promises.readFile(filePath);
-		const data = JSON.parse(file.toString());
-
-		if (!data[key]) {
-			data[key] = [];
-		}
+		const data = await this.getDataWithListKeyProvided(filePath, key);
 
 		if (!data[key].includes(value)) {
 			data[key].push(value);
@@ -53,13 +42,7 @@ export class StorageService implements StorageServiceInterface {
 
 	public async removeKeyValue(key: string, value: any): Promise<void> {
 		const filePath = StorageService.FILE_PATH;
-		await this.checkSettingsExists();
-		const file = await promises.readFile(filePath);
-		const data = JSON.parse(file.toString());
-
-		if (!data[key]) {
-			data[key] = [];
-		}
+		const data = await this.getDataWithListKeyProvided(filePath, key);
 
 		const valueId = data[key].indexOf(value);
 		if (valueId > -1) {
@@ -73,5 +56,25 @@ export class StorageService implements StorageServiceInterface {
 		if (!(await this.isExists(StorageService.FILE_PATH))) {
 			throw new Error('Customer settings file is not exists');
 		}
+	}
+
+	private async getData<T = any>(filepath: string): Promise<T> {
+		await this.checkSettingsExists();
+		const file = await promises.readFile(filepath);
+
+		return JSON.parse(file.toString());
+	}
+	private async getDataWithListKeyProvided<T = any>(filepath: string, key: string): Promise<T> {
+		const data = await this.getData(filepath);
+
+		return this.provideListProp(data, key);
+	}
+
+	private async provideListProp<T = any>(data: any, key: string): Promise<T> {
+		if (!data[key]) {
+			data[key] = [];
+		}
+
+		return data;
 	}
 }
