@@ -1,4 +1,4 @@
-import { ApiWeatherRespType } from '../../service/weather.api/api.weather.resp.type';
+import { ApiWeatherRespType } from '../../../service/weather.api/api.weather.resp.type';
 
 export interface LanguageMsgInterface {
 	help: string;

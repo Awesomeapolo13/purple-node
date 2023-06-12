@@ -4,10 +4,10 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
 import { ApiServiceInterface } from '../service/weather.api/api.service.interface';
-import { LanguageType } from '../dictionary/language/language.type';
+import { LanguageType } from '../language/dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
 import { ApiWeatherRespType } from '../service/weather.api/api.weather.resp.type';
-import { LogLanguageDictionary } from '../dictionary/language/log.language.dictionary';
+import { LogLanguageDictionary } from '../language/dictionary/language/log.language.dictionary';
 
 @injectable()
 export class WeatherHandler implements WeatherHandlerInterface {

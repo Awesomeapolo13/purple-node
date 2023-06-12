@@ -6,13 +6,13 @@ import { TYPES } from '../../types';
 import { LoggerInterface } from '../logger/logger.interface';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
 import { WeatherHandlerInterface } from './weather.handler.interface';
-import { ValidateMiddleware } from '../common/validate.middleware';
+import { ValidateMiddleware } from '../common/middleware/validate.middleware';
 import { WeatherDto } from './weather.dto';
-import { LanguageType } from '../dictionary/language/language.type';
+import { LanguageType } from '../language/dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
-import { LogLanguageDictionary } from '../dictionary/language/log.language.dictionary';
+import { LogLanguageDictionary } from '../language/dictionary/language/log.language.dictionary';
 import { HttpError } from '../common/error/http.error';
-import { AuthMiddleware } from '../common/auth.middleware';
+import { AuthMiddleware } from '../common/middleware/auth.middleware';
 
 @injectable()
 export class WeatherController extends BaseController implements WeatherControllerInterface {

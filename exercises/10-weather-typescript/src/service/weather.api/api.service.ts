@@ -3,7 +3,7 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../../../types';
 import { StorageServiceInterface } from '../storage/storage.service.interface';
 import { AllowedTokenEnum } from '../storage/allowed.token.enum';
-import { LanguageType } from '../../dictionary/language/language.type';
+import { LanguageType } from '../../language/dictionary/language/language.type';
 import axios from 'axios';
 import { ApiWeatherRespType } from './api.weather.resp.type';
 import { LoggerInterface } from '../../logger/logger.interface';

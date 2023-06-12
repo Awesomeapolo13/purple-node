@@ -2,11 +2,10 @@ import { HelpHandlerInterface } from '../help/help.handler.interface';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
-import { LanguageType } from '../dictionary/language/language.type';
+import { LanguageType } from './dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
-import { LogLanguageDictionary } from '../dictionary/language/log.language.dictionary';
+import { LogLanguageDictionary } from './dictionary/language/log.language.dictionary';
 import { LanguageHandlerInterface } from './language.handler.interface';
-import { CityDto } from '../city/city.dto';
 import { LanguageDto } from './language.dto';
 
 @injectable()

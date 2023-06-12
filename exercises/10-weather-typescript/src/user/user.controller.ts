@@ -7,11 +7,11 @@ import { UserControllerInterface } from './user.controller.interface';
 import { UserLoginDto } from './user-login.dto';
 import { UserHandlerInterface } from './user.handler.interface';
 import { HttpError } from '../common/error/http.error';
-import { ValidateMiddleware } from '../common/validate.middleware';
+import { ValidateMiddleware } from '../common/middleware/validate.middleware';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
-import { LogLanguageDictionary } from '../dictionary/language/log.language.dictionary';
-import { LanguageType } from '../dictionary/language/language.type';
+import { LogLanguageDictionary } from '../language/dictionary/language/log.language.dictionary';
+import { LanguageType } from '../language/dictionary/language/language.type';
 import { sign } from 'jsonwebtoken';
 
 /**

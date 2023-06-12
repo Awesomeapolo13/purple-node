@@ -25,7 +25,7 @@ export class StorageService implements StorageServiceInterface {
 
 	public async saveKeyValue(key: string, value: any): Promise<void> {
 		const filePath = StorageService.FILE_PATH;
-		const data = await this.getData(filePath);
+		const data = (await this.getData(filePath)) ?? {};
 		data[key] = value;
 		await promises.writeFile(filePath, JSON.stringify(data));
 	}

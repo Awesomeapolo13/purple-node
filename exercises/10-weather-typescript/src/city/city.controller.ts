@@ -7,12 +7,12 @@ import { LoggerInterface } from '../logger/logger.interface';
 import { CityDto } from './city.dto';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
 import { CityHandlerInterface } from './city.handler.interface';
-import { ValidateMiddleware } from '../common/validate.middleware';
-import { LanguageType } from '../dictionary/language/language.type';
+import { ValidateMiddleware } from '../common/middleware/validate.middleware';
+import { LanguageType } from '../language/dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
 import { HttpError } from '../common/error/http.error';
-import { LogLanguageDictionary } from '../dictionary/language/log.language.dictionary';
-import { AuthMiddleware } from '../common/auth.middleware';
+import { LogLanguageDictionary } from '../language/dictionary/language/log.language.dictionary';
+import { AuthMiddleware } from '../common/middleware/auth.middleware';
 
 @injectable()
 export class CityController extends BaseController implements CityControllerInterface {

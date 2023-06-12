@@ -1,10 +1,10 @@
-import type { Config } from "@jest/types";
+import type { Config } from '@jest/types';
 
 const config: Config.InitialOptions = {
-    verbose: true,
-    preset: 'ts-jest',
-    rootDir: './tests',
-    testRegex: '.e2e-spec.ts$',
-}
+	verbose: true,
+	preset: 'ts-jest',
+	rootDir: './tests',
+	testRegex: '.e2e-spec.ts$',
+};
 
 export default config;
