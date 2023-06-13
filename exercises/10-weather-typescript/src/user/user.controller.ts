@@ -12,7 +12,6 @@ import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
 import { LogLanguageDictionary } from '../language/dictionary/language/log.language.dictionary';
 import { LanguageType } from '../language/dictionary/language/language.type';
-import { sign } from 'jsonwebtoken';
 
 /**
  * Контроллер пользователей.

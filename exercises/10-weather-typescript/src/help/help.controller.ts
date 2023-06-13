@@ -33,11 +33,13 @@ export class HelpController extends BaseController implements HelpControllerInte
 	}
 
 	public async help(req: Request, res: Response, next: NextFunction): Promise<void> {
-		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
 		const result = await this.helpHandler.handleHelp();
 
 		if (!result) {
-			throw new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong);
+			const langKey: LanguageType = await this.storageService.getKeyValue(
+				AllowedTokenEnum.LANGUAGE,
+			);
+			return next(new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong));
 		}
 
 		this.ok(res, {
