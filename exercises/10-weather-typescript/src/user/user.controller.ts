@@ -6,12 +6,12 @@ import { LoggerInterface } from '../logger/logger.interface';
 import { UserControllerInterface } from './user.controller.interface';
 import { UserLoginDto } from './user-login.dto';
 import { UserHandlerInterface } from './user.handler.interface';
-import { HttpError } from '../common/error/http.error';
 import { ValidateMiddleware } from '../common/middleware/validate.middleware';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
 import { StorageServiceInterface } from '../service/storage/storage.service.interface';
 import { LogLanguageDictionary } from '../language/dictionary/language/log.language.dictionary';
 import { LanguageType } from '../language/dictionary/language/language.type';
+import { HttpCodeEnum } from '../common/error/http.code.enum';
 
 /**
  * Контроллер пользователей.
@@ -39,15 +39,20 @@ export class UserController extends BaseController implements UserControllerInte
 		res: Response,
 		next: NextFunction,
 	): Promise<void> {
-		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
-		const result = await this.userHandler.handleLogin(body);
-		if (!result) {
-			return next(new HttpError(400, LogLanguageDictionary[langKey].wrongTokenSetUpMsg));
+		try {
+			this.ok(res, {
+				success: true,
+				message: await this.userHandler.handleLogin(body),
+			});
+		} catch (e) {
+			const langKey: LanguageType = await this.storageService.getKeyValue(
+				AllowedTokenEnum.LANGUAGE,
+			);
+			return this.error(
+				next,
+				LogLanguageDictionary[langKey].smtWentWrong,
+				HttpCodeEnum.BAD_REQUEST_CODE,
+			);
 		}
-
-		this.ok(res, {
-			success: true,
-			message: LogLanguageDictionary[langKey].saveTokenSuccess,
-		});
 	}
 }
