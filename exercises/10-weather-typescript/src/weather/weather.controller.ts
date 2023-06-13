@@ -33,7 +33,10 @@ export class WeatherController extends BaseController implements WeatherControll
 				path: '/',
 				method: 'get',
 				func: this.getWeatherForCity,
-				middlewares: [new ValidateMiddleware(WeatherDto), new AuthMiddleware(this.storageService)],
+				middlewares: [
+					new ValidateMiddleware(WeatherDto, this.storageService),
+					new AuthMiddleware(this.storageService),
+				],
 			},
 		]);
 	}

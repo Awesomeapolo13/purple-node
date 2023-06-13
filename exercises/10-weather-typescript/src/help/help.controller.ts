@@ -7,11 +7,11 @@ import { StorageServiceInterface } from '../service/storage/storage.service.inte
 import { BaseController } from '../common/base.controller';
 import { LanguageType } from '../language/dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
-import { HttpError } from '../common/error/http.error';
 import { LogLanguageDictionary } from '../language/dictionary/language/log.language.dictionary';
 import { HelpControllerInterface } from './help.controller.interface';
 import { LanguageMiddleware } from '../common/middleware/language.middleware';
 import { ConfigServiceInterface } from '../config/config.service.interface';
+import { HttpCodeEnum } from '../common/error/http.code.enum';
 
 @injectable()
 export class HelpController extends BaseController implements HelpControllerInterface {
@@ -39,7 +39,11 @@ export class HelpController extends BaseController implements HelpControllerInte
 			const langKey: LanguageType = await this.storageService.getKeyValue(
 				AllowedTokenEnum.LANGUAGE,
 			);
-			return next(new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong));
+			return this.error(
+				next,
+				LogLanguageDictionary[langKey].smtWentWrong,
+				HttpCodeEnum.BAD_REQUEST_CODE,
+			);
 		}
 
 		this.ok(res, {

@@ -4,6 +4,7 @@ import { HttpError } from './http.error';
 import { inject, injectable } from 'inversify';
 import { LoggerInterface } from '../../logger/logger.interface';
 import { TYPES } from '../../../types';
+import { ErrorBodyType } from './error.body.type';
 
 /**
  * Обработчик ошибок.
@@ -16,14 +17,17 @@ export class ExceptionFilter implements ExceptionFilterInterface {
 	public catch(err: Error | HttpError, req: Request, res: Response, next: NextFunction): void {
 		if (err instanceof HttpError) {
 			this.logger.error(`[${err.context}] Ошибка ${err.statusCode} : ${err.message}`);
-			res.status(err.statusCode).send({
-				err: err.message,
-			});
+			res.status(err.statusCode).send(this.getErrResponseBody(err.message));
 		} else {
 			this.logger.error(`${err.message}`);
-			res.status(500).send({
-				err: err.message,
-			});
+			res.status(500).send(this.getErrResponseBody(err.message));
 		}
+	}
+
+	private getErrResponseBody(message: string): ErrorBodyType {
+		return {
+			success: false,
+			err: message,
+		};
 	}
 }

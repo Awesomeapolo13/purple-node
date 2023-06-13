@@ -9,12 +9,12 @@ import { ValidateMiddleware } from '../common/middleware/validate.middleware';
 import { LanguageDto } from './language.dto';
 import { LanguageHandlerInterface } from './language.handler.interface';
 import { LogLanguageDictionary } from './dictionary/language/log.language.dictionary';
-import { HttpError } from '../common/error/http.error';
 import { AuthMiddleware } from '../common/middleware/auth.middleware';
 import { LanguageMiddleware } from '../common/middleware/language.middleware';
 import { ConfigServiceInterface } from '../config/config.service.interface';
 import { LanguageType } from './dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
+import { HttpCodeEnum } from '../common/error/http.code.enum';
 
 @injectable()
 export class LanguageController extends BaseController implements LanguageControllerInterface {
@@ -31,29 +31,32 @@ export class LanguageController extends BaseController implements LanguageContro
 				method: 'post',
 				func: this.langSet,
 				middlewares: [
-					new ValidateMiddleware(LanguageDto),
-					new AuthMiddleware(this.storageService),
 					new LanguageMiddleware(this.configService, this.storageService),
+					new ValidateMiddleware(LanguageDto, storageService),
+					new AuthMiddleware(this.storageService),
 				],
 			},
 		]);
 	}
 	public async langSet(
-		{ headers, body }: Request<{}, {}, LanguageDto>,
+		{ body }: Request<{}, {}, LanguageDto>,
 		res: Response,
 		next: NextFunction,
 	): Promise<void> {
-		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
-		let message: string = LogLanguageDictionary[langKey].langIsEmptyMsg;
 		try {
-			message = await this.languageHandler.handleLangSet(body);
+			this.ok(res, {
+				success: true,
+				message: await this.languageHandler.handleLangSet(body),
+			});
 		} catch (e) {
-			return next(new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong));
+			const langKey: LanguageType = await this.storageService.getKeyValue(
+				AllowedTokenEnum.LANGUAGE,
+			);
+			return this.error(
+				next,
+				LogLanguageDictionary[langKey].smtWentWrong,
+				HttpCodeEnum.BAD_REQUEST_CODE,
+			);
 		}
-
-		this.ok(res, {
-			success: true,
-			message: message,
-		});
 	}
 }

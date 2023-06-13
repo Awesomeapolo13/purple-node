@@ -27,13 +27,19 @@ export class CityController extends BaseController implements CityControllerInte
 				path: '/add',
 				method: 'post',
 				func: this.handleCityAdd,
-				middlewares: [new ValidateMiddleware(CityDto), new AuthMiddleware(this.storageService)],
+				middlewares: [
+					new ValidateMiddleware(CityDto, this.storageService),
+					new AuthMiddleware(this.storageService),
+				],
 			},
 			{
 				path: '/remove',
 				method: 'post',
 				func: this.handleCityRemove,
-				middlewares: [new ValidateMiddleware(CityDto), new AuthMiddleware(this.storageService)],
+				middlewares: [
+					new ValidateMiddleware(CityDto, this.storageService),
+					new AuthMiddleware(this.storageService),
+				],
 			},
 		]);
 	}
