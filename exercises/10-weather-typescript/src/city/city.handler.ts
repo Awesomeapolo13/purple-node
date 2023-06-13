@@ -6,6 +6,8 @@ import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
 import { LogLanguageDictionary } from '../language/dictionary/language/log.language.dictionary';
 import { CityHandlerInterface } from './city.handler.interface';
 import { CityDto } from './city.dto';
+import { HttpError } from '../common/error/http.error';
+import { HttpCodeEnum } from '../common/error/http.code.enum';
 
 @injectable()
 export class CityHandler implements CityHandlerInterface {
@@ -14,30 +16,37 @@ export class CityHandler implements CityHandlerInterface {
 	) {}
 
 	public async handleCityAdd({ city }: CityDto): Promise<string> {
-		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
-		const cityList = await this.storageService.getKeyValue(AllowedTokenEnum.CITY);
-		let message = LogLanguageDictionary[langKey].cityIsExists;
-
-		if (!cityList.includes(city)) {
-			await this.storageService.addKeyValue(AllowedTokenEnum.CITY, city);
-			message = LogLanguageDictionary[langKey].saveCitySuccess;
+		const [langKey, cityList] = await this.getLangAndCities();
+		if (cityList.includes(city)) {
+			throw new HttpError(
+				HttpCodeEnum.BAD_REQUEST_CODE,
+				LogLanguageDictionary[langKey].cityIsExists,
+			);
 		}
+		await this.storageService.addKeyValue(AllowedTokenEnum.CITY, city);
 
-		return message;
+		return LogLanguageDictionary[langKey].saveCitySuccess;
 	}
 
 	public async handleCityRemove({ city }: CityDto): Promise<string> {
+		const [langKey, cityList] = await this.getLangAndCities();
+		if (!cityList.includes(city)) {
+			throw new HttpError(
+				HttpCodeEnum.BAD_REQUEST_CODE,
+				LogLanguageDictionary[langKey].cityIsNotExists,
+			);
+		}
+		await this.storageService.removeKeyValue(AllowedTokenEnum.CITY, city);
+
+		return LogLanguageDictionary[langKey].removeCitySuccess;
+	}
+
+	private async getLangAndCities(): Promise<[LanguageType, string[]]> {
 		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
 		const cityList: string[] = await this.storageService.getKeyValue<string[]>(
 			AllowedTokenEnum.CITY,
 		);
-		let message = LogLanguageDictionary[langKey].cityIsNotExists;
 
-		if (cityList.includes(city)) {
-			await this.storageService.removeKeyValue(AllowedTokenEnum.CITY, city);
-			message = LogLanguageDictionary[langKey].removeCitySuccess;
-		}
-
-		return message;
+		return [langKey, cityList];
 	}
 }

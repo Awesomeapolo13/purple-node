@@ -48,6 +48,9 @@ export class ValidateMiddleware implements MiddlewareInterface {
 					case ValidationErrorCodeEnum.LANG_IS_EMPTY_CODE:
 						error.constraints[constraint] = LogLanguageDictionary[language].langIsEmptyMsg;
 						break;
+					case ValidationErrorCodeEnum.WRONG_CITY_SET_UP_CODE:
+						error.constraints[constraint] = LogLanguageDictionary[language].wrongCitySetUpMsg;
+						break;
 					default:
 						error.constraints[constraint] = LogLanguageDictionary[language].smtWentWrong;
 				}

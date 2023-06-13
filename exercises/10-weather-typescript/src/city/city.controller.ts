@@ -10,9 +10,10 @@ import { CityHandlerInterface } from './city.handler.interface';
 import { ValidateMiddleware } from '../common/middleware/validate.middleware';
 import { LanguageType } from '../language/dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
-import { HttpError } from '../common/error/http.error';
 import { LogLanguageDictionary } from '../language/dictionary/language/log.language.dictionary';
 import { AuthMiddleware } from '../common/middleware/auth.middleware';
+import { HttpCodeEnum } from '../common/error/http.code.enum';
+import { HttpError } from '../common/error/http.error';
 
 @injectable()
 export class CityController extends BaseController implements CityControllerInterface {
@@ -49,17 +50,17 @@ export class CityController extends BaseController implements CityControllerInte
 		next: NextFunction,
 	): Promise<void> {
 		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
-		let message: string = LogLanguageDictionary[langKey].wrongCitySetUpMsg;
 		try {
-			message = await this.cityHandler.handleCityAdd(body);
+			this.ok(res, {
+				success: true,
+				message: await this.cityHandler.handleCityAdd(body),
+			});
 		} catch (e) {
-			return next(new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong));
+			if (e instanceof HttpError) {
+				return this.error(next, e.message, e.statusCode);
+			}
+			return await this.errorReturn(next, langKey);
 		}
-
-		this.ok(res, {
-			success: true,
-			message: message,
-		});
 	}
 
 	public async handleCityRemove(
@@ -68,16 +69,24 @@ export class CityController extends BaseController implements CityControllerInte
 		next: NextFunction,
 	): Promise<void> {
 		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
-		let message: string = LogLanguageDictionary[langKey].wrongCitySetUpMsg;
 		try {
-			message = await this.cityHandler.handleCityRemove(body);
+			this.ok(res, {
+				success: true,
+				message: await this.cityHandler.handleCityRemove(body),
+			});
 		} catch (e) {
-			return next(new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong));
+			if (e instanceof HttpError) {
+				return this.error(next, e.message, e.statusCode);
+			}
+			return await this.errorReturn(next, langKey);
 		}
+	}
 
-		this.ok(res, {
-			success: true,
-			message: message,
-		});
+	private async errorReturn(next: NextFunction, lang: LanguageType): Promise<void> {
+		return this.error(
+			next,
+			LogLanguageDictionary[lang].smtWentWrong,
+			HttpCodeEnum.BAD_REQUEST_CODE,
+		);
 	}
 }
