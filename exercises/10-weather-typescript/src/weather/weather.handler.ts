@@ -25,7 +25,17 @@ export class WeatherHandler implements WeatherHandlerInterface {
 			// сделать через map
 			const weather = await this.apiService.getWeather(city);
 			const icon = this.getWeatherStructure(weather);
-			weatherList.push(LogLanguageDictionary[langKey].weather(weather, icon));
+			weatherList.push(
+				LogLanguageDictionary[langKey].weather(
+					weather.name,
+					weather.weather[0].description,
+					weather.main.temp,
+					weather.main.feels_like,
+					weather.main.humidity,
+					weather.wind.speed,
+					icon,
+				),
+			);
 		}
 
 		return weatherList;
@@ -36,7 +46,15 @@ export class WeatherHandler implements WeatherHandlerInterface {
 		const result = await this.apiService.getWeather(city);
 		const icon = this.getWeatherStructure(result);
 
-		return LogLanguageDictionary[langKey].weather(result, icon);
+		return LogLanguageDictionary[langKey].weather(
+			result.name,
+			result.weather[0].description,
+			result.main.temp,
+			result.main.feels_like,
+			result.main.humidity,
+			result.wind.speed,
+			icon,
+		);
 	}
 
 	/**

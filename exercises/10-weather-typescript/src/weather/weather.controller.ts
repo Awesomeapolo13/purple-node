@@ -11,14 +11,18 @@ import { WeatherDto } from './weather.dto';
 import { LanguageType } from '../language/dictionary/language/language.type';
 import { AllowedTokenEnum } from '../service/storage/allowed.token.enum';
 import { LogLanguageDictionary } from '../language/dictionary/language/log.language.dictionary';
-import { HttpError } from '../common/error/http.error';
 import { AuthMiddleware } from '../common/middleware/auth.middleware';
+import { HttpCodeEnum } from '../common/error/http.code.enum';
+import { LanguageMiddleware } from '../common/middleware/language.middleware';
+import { ConfigServiceInterface } from '../config/config.service.interface';
+import { HttpError } from '../common/error/http.error';
 
 @injectable()
 export class WeatherController extends BaseController implements WeatherControllerInterface {
 	constructor(
 		@inject(TYPES.LoggerInterface) protected logger: LoggerInterface,
 		@inject(TYPES.StorageService) private readonly storageService: StorageServiceInterface,
+		@inject(TYPES.ConfigService) private readonly configService: ConfigServiceInterface,
 		@inject(TYPES.WeatherHandler) private readonly weatherHandler: WeatherHandlerInterface,
 	) {
 		super(logger);
@@ -27,13 +31,17 @@ export class WeatherController extends BaseController implements WeatherControll
 				path: '/all',
 				method: 'get',
 				func: this.getWeatherAll,
-				middlewares: [new AuthMiddleware(this.storageService)],
+				middlewares: [
+					new LanguageMiddleware(this.configService, this.storageService),
+					new AuthMiddleware(this.storageService),
+				],
 			},
 			{
 				path: '/',
 				method: 'get',
 				func: this.getWeatherForCity,
 				middlewares: [
+					new LanguageMiddleware(this.configService, this.storageService),
 					new ValidateMiddleware(WeatherDto, this.storageService),
 					new AuthMiddleware(this.storageService),
 				],
@@ -42,19 +50,24 @@ export class WeatherController extends BaseController implements WeatherControll
 	}
 
 	public async getWeatherAll(req: Request, res: Response, next: NextFunction): Promise<void> {
-		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
-		let result: string[] = [];
-
 		try {
-			result = await this.weatherHandler.handleWeatherAll();
+			this.ok(res, {
+				success: true,
+				weatherList: await this.weatherHandler.handleWeatherAll(),
+			});
 		} catch (e) {
-			return next(new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong));
+			const langKey: LanguageType = await this.storageService.getKeyValue(
+				AllowedTokenEnum.LANGUAGE,
+			);
+			if (e instanceof HttpError) {
+				return this.error(next, e.message, e.statusCode);
+			}
+			return this.error(
+				next,
+				LogLanguageDictionary[langKey].smtWentWrong,
+				HttpCodeEnum.BAD_REQUEST_CODE,
+			);
 		}
-
-		this.ok(res, {
-			success: true,
-			weatherList: result,
-		});
 	}
 
 	public async getWeatherForCity(
@@ -62,18 +75,23 @@ export class WeatherController extends BaseController implements WeatherControll
 		res: Response,
 		next: NextFunction,
 	): Promise<void> {
-		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
-		let result: string = LogLanguageDictionary[langKey].smtWentWrong;
-
 		try {
-			result = await this.weatherHandler.handleWeatherByCity(query);
+			this.ok(res, {
+				success: true,
+				weather: await this.weatherHandler.handleWeatherByCity(query),
+			});
 		} catch (e) {
-			return next(new HttpError(400, LogLanguageDictionary[langKey].smtWentWrong));
+			const langKey: LanguageType = await this.storageService.getKeyValue(
+				AllowedTokenEnum.LANGUAGE,
+			);
+			if (e instanceof HttpError) {
+				return this.error(next, e.message, e.statusCode);
+			}
+			return this.error(
+				next,
+				LogLanguageDictionary[langKey].smtWentWrong,
+				HttpCodeEnum.BAD_REQUEST_CODE,
+			);
 		}
-
-		this.ok(res, {
-			success: true,
-			weather: result,
-		});
 	}
 }
