@@ -1,7 +1,5 @@
 import { LanguageEnum } from './language.enum';
-import { Response } from 'express';
 import { LanguageMsgInterface } from './language.msg.interface';
-import { ApiWeatherRespType } from '../../../service/weather.api/api.weather.resp.type';
 
 export class LogLanguageDictionary {
 	public static readonly AVAILABLE_LANGS = LanguageEnum;
@@ -14,13 +12,21 @@ export class LogLanguageDictionary {
         /city/remove [DELETE] - to remove a city from your list
         /lang/set [POST] - to set up a language (only ru and en access now)
         /login [POST] - to set up an auth token`,
-		weather: ({ name, weather, main, wind }: ApiWeatherRespType, icon: string) => {
+		weather: (
+			name: string,
+			description: string,
+			temp: number,
+			feels_like: number,
+			humidity: number,
+			windSpeed: number,
+			icon: string,
+		) => {
 			return `[WEATHER]
             The weather from ${name} city
-            ${icon} ${weather[0].description}
-            Temperature: ${main.temp} (feels like ${main.feels_like})
-            Humidity: ${main.humidity}%
-            Wind speed: ${wind.speed}
+            ${icon} ${description}
+            Temperature: ${temp} (feels like ${feels_like})
+            Humidity: ${humidity}%
+            Wind speed: ${windSpeed}
             `;
 		},
 		saveTokenSuccess: 'Token was saved successfully',
@@ -50,13 +56,21 @@ export class LogLanguageDictionary {
          /lang/set [POST] - устанавливает языковые настройки (сейчас доступны только ru и en)
          /login [POST] - устанавливает авторизационный токен,
         `,
-		weather: ({ name, weather, main, wind }: ApiWeatherRespType, icon: string) => {
+		weather: (
+			name: string,
+			description: string,
+			temp: number,
+			feels_like: number,
+			humidity: number,
+			windSpeed: number,
+			icon: string,
+		) => {
 			return `[WEATHER]
             Погода в городе ${name}
-            ${icon} ${weather[0].description}
-            Температура: ${main.temp} (ощущается как ${main.feels_like})
-            Влажность: ${main.humidity}%
-            Скорость ветка: ${wind.speed}
+            ${icon} ${description}
+            Температура: ${temp} (ощущается как ${feels_like})
+            Влажность: ${humidity}%
+            Скорость ветра: ${windSpeed}
             `;
 		},
 		saveTokenSuccess: 'Токен сохранен.',

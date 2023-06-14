@@ -1,8 +1,14 @@
-import { ApiWeatherRespType } from '../../../service/weather.api/api.weather.resp.type';
-
 export interface LanguageMsgInterface {
 	help: string;
-	weather: ({ name, weather, main, wind }: ApiWeatherRespType, icon: string) => string;
+	weather: (
+		name: string,
+		description: string,
+		temp: number,
+		feels_like: number,
+		humidity: number,
+		windSpeed: number,
+		icon: string,
+	) => string;
 	saveTokenSuccess: string;
 	tokenIsEmptyMsg: string;
 	tokenEmptyForLogin: string;

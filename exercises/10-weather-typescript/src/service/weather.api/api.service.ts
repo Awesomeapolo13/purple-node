@@ -7,6 +7,9 @@ import { LanguageType } from '../../language/dictionary/language/language.type';
 import axios from 'axios';
 import { ApiWeatherRespType } from './api.weather.resp.type';
 import { LoggerInterface } from '../../logger/logger.interface';
+import { HttpError } from '../../common/error/http.error';
+import { HttpCodeEnum } from '../../common/error/http.code.enum';
+import { LogLanguageDictionary } from '../../language/dictionary/language/log.language.dictionary';
 
 @injectable()
 export class ApiService implements ApiServiceInterface {
@@ -36,8 +39,10 @@ export class ApiService implements ApiServiceInterface {
 		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
 
 		if (!apiToken) {
-			this.logger.error('No token');
-			throw new Error('No token');
+			throw new HttpError(
+				HttpCodeEnum.BAD_REQUEST_CODE,
+				LogLanguageDictionary[langKey].tokenIsEmptyMsg,
+			);
 		}
 
 		this.logger.log('Weather request', {
