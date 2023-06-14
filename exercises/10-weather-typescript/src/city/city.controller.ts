@@ -14,6 +14,8 @@ import { LogLanguageDictionary } from '../language/dictionary/language/log.langu
 import { AuthMiddleware } from '../common/middleware/auth.middleware';
 import { HttpCodeEnum } from '../common/error/http.code.enum';
 import { HttpError } from '../common/error/http.error';
+import { LanguageMiddleware } from '../common/middleware/language.middleware';
+import { ConfigServiceInterface } from '../config/config.service.interface';
 
 @injectable()
 export class CityController extends BaseController implements CityControllerInterface {
@@ -21,6 +23,7 @@ export class CityController extends BaseController implements CityControllerInte
 		@inject(TYPES.LoggerInterface) protected logger: LoggerInterface,
 		@inject(TYPES.CityHandler) private cityHandler: CityHandlerInterface,
 		@inject(TYPES.StorageService) private readonly storageService: StorageServiceInterface,
+		@inject(TYPES.ConfigService) private readonly configService: ConfigServiceInterface,
 	) {
 		super(logger);
 		this.bindRoutes([
@@ -29,6 +32,7 @@ export class CityController extends BaseController implements CityControllerInte
 				method: 'post',
 				func: this.handleCityAdd,
 				middlewares: [
+					new LanguageMiddleware(this.configService, this.storageService),
 					new ValidateMiddleware(CityDto, this.storageService),
 					new AuthMiddleware(this.storageService),
 				],
@@ -38,6 +42,7 @@ export class CityController extends BaseController implements CityControllerInte
 				method: 'post',
 				func: this.handleCityRemove,
 				middlewares: [
+					new LanguageMiddleware(this.configService, this.storageService),
 					new ValidateMiddleware(CityDto, this.storageService),
 					new AuthMiddleware(this.storageService),
 				],
@@ -49,13 +54,15 @@ export class CityController extends BaseController implements CityControllerInte
 		res: Response,
 		next: NextFunction,
 	): Promise<void> {
-		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
 		try {
 			this.ok(res, {
 				success: true,
 				message: await this.cityHandler.handleCityAdd(body),
 			});
 		} catch (e) {
+			const langKey: LanguageType = await this.storageService.getKeyValue(
+				AllowedTokenEnum.LANGUAGE,
+			);
 			if (e instanceof HttpError) {
 				return this.error(next, e.message, e.statusCode);
 			}
@@ -68,13 +75,15 @@ export class CityController extends BaseController implements CityControllerInte
 		res: Response,
 		next: NextFunction,
 	): Promise<void> {
-		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
 		try {
 			this.ok(res, {
 				success: true,
 				message: await this.cityHandler.handleCityRemove(body),
 			});
 		} catch (e) {
+			const langKey: LanguageType = await this.storageService.getKeyValue(
+				AllowedTokenEnum.LANGUAGE,
+			);
 			if (e instanceof HttpError) {
 				return this.error(next, e.message, e.statusCode);
 			}

@@ -12,6 +12,8 @@ import { StorageServiceInterface } from '../service/storage/storage.service.inte
 import { LogLanguageDictionary } from '../language/dictionary/language/log.language.dictionary';
 import { LanguageType } from '../language/dictionary/language/language.type';
 import { HttpCodeEnum } from '../common/error/http.code.enum';
+import { LanguageMiddleware } from '../common/middleware/language.middleware';
+import { ConfigServiceInterface } from '../config/config.service.interface';
 
 /**
  * Контроллер пользователей.
@@ -22,6 +24,7 @@ export class UserController extends BaseController implements UserControllerInte
 		@inject(TYPES.LoggerInterface) protected logger: LoggerInterface,
 		@inject(TYPES.UserHandler) private userHandler: UserHandlerInterface,
 		@inject(TYPES.StorageService) private readonly storageService: StorageServiceInterface,
+		@inject(TYPES.ConfigService) private readonly configService: ConfigServiceInterface,
 	) {
 		super(logger);
 		this.bindRoutes([
@@ -29,7 +32,10 @@ export class UserController extends BaseController implements UserControllerInte
 				path: '/login',
 				method: 'post',
 				func: this.login,
-				middlewares: [new ValidateMiddleware(UserLoginDto, this.storageService)],
+				middlewares: [
+					new LanguageMiddleware(this.configService, this.storageService),
+					new ValidateMiddleware(UserLoginDto, this.storageService),
+				],
 			},
 		]);
 	}
