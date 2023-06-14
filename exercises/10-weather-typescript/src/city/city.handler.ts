@@ -17,7 +17,7 @@ export class CityHandler implements CityHandlerInterface {
 
 	public async handleCityAdd({ city }: CityDto): Promise<string> {
 		const [langKey, cityList] = await this.getLangAndCities();
-		if (cityList.includes(city)) {
+		if (Array.isArray(cityList) && cityList.includes(city)) {
 			throw new HttpError(
 				HttpCodeEnum.BAD_REQUEST_CODE,
 				LogLanguageDictionary[langKey].cityIsExists,
@@ -30,7 +30,7 @@ export class CityHandler implements CityHandlerInterface {
 
 	public async handleCityRemove({ city }: CityDto): Promise<string> {
 		const [langKey, cityList] = await this.getLangAndCities();
-		if (!cityList.includes(city)) {
+		if (Array.isArray(cityList) && !cityList.includes(city)) {
 			throw new HttpError(
 				HttpCodeEnum.BAD_REQUEST_CODE,
 				LogLanguageDictionary[langKey].cityIsNotExists,
@@ -41,11 +41,11 @@ export class CityHandler implements CityHandlerInterface {
 		return LogLanguageDictionary[langKey].removeCitySuccess;
 	}
 
-	private async getLangAndCities(): Promise<[LanguageType, string[]]> {
+	private async getLangAndCities(): Promise<[LanguageType, string[] | undefined]> {
 		const langKey: LanguageType = await this.storageService.getKeyValue(AllowedTokenEnum.LANGUAGE);
-		const cityList: string[] = await this.storageService.getKeyValue<string[]>(
-			AllowedTokenEnum.CITY,
-		);
+		const cityList: string[] | undefined = await this.storageService.getKeyValue<
+			string[] | undefined
+		>(AllowedTokenEnum.CITY);
 
 		return [langKey, cityList];
 	}
