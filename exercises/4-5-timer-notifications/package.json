@@ -1,0 +1,19 @@
+{
+  "name": "4-5-timer-notifications",
+  "version": "1.0.0",
+  "description": "Example of npm usage",
+  "main": "timer.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "timer",
+    "notification"
+  ],
+  "author": "Alexey Logachev",
+  "license": "ISC",
+  "dependencies": {
+    "node-notifier": "^10.0.1"
+  }
+}

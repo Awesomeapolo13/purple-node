@@ -1,0 +1,4 @@
+.idea
+./exercises/*/node_modules
+./exercises/8-weather-extended/node_modules
+/.clinic
