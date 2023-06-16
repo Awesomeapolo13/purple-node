@@ -11,7 +11,7 @@ const handleLogin = async (reqBody) => {
 
     return {
         success: true,
-        message: logLanguageDict[langKey].saveTokenSuccess,
+        message: 'Временной сообщение',
     }
 };
 
